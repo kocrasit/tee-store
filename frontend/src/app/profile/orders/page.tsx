@@ -65,12 +65,20 @@ export default function OrdersPage() {
             </div>
 
             {orders.length === 0 ? (
-                <div className="text-center py-12 bg-white rounded-3xl shadow-lg border border-gray-100">
-                    <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900">Henüz siparişiniz yok</h3>
-                    <p className="text-gray-500 mt-2">Alışverişe başlayın ve ilk siparişinizi verin.</p>
-                    <Link href="/designs" className="inline-block mt-6 px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors">
+                <div className="text-center py-16 bg-white rounded-3xl shadow-lg border border-gray-100">
+                    <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Package className="w-10 h-10 text-indigo-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Henüz Siparişiniz Yok</h3>
+                    <p className="text-gray-500 max-w-md mx-auto mb-8">
+                        Beğendiğiniz tasarımları sepetinize ekleyerek ilk siparişinizi oluşturabilirsiniz.
+                    </p>
+                    <Link
+                        href="/"
+                        className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 transform hover:-translate-y-1 transition-all duration-200"
+                    >
                         Alışverişe Başla
+                        <ChevronRight className="ml-2 w-5 h-5" />
                     </Link>
                 </div>
             ) : (

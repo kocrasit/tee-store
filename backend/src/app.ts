@@ -3,7 +3,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-import { errorMiddleware } from './middleware/errorMiddleware';
+import { errorHandler } from './middlewares/errorHandler';
+import { sendSuccess } from './utils/apiResponse';
 import authRoutes from './routes/authRoutes';
 import passwordResetRoutes from './routes/passwordResetRoutes';
 import designRoutes from './routes/designRoutes';
@@ -43,10 +44,10 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
-  res.send('API is running...');
+  sendSuccess(res, { data: { message: 'API is running...' } });
 });
 
 // Error Middleware
-app.use(errorMiddleware);
+app.use(errorHandler);
 
 export default app;

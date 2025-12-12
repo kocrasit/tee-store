@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Trash2, ShoppingBag, ArrowRight, Ticket, X } from 'lucide-react';
+import { ShoppingBag, ArrowRight, Trash2, Ticket, X } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 import api from '@/api/axios';
+import toast from 'react-hot-toast';
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotalPrice } = useCartStore();
@@ -15,48 +16,32 @@ export default function CartPage() {
   const [backendDiscount, setBackendDiscount] = useState(0);
   const [availableCoupons, setAvailableCoupons] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [subtotal, setSubtotal] = useState(0);
 
-  const subtotal = getTotalPrice();
   const shipping = subtotal > 500 ? 0 : 29.90;
 
-  // Fetch backend cart and coupons on mount if user is logged in
   useEffect(() => {
-    if (user) {
-      fetchBackendCart();
-      fetchAvailableCoupons();
-    }
-  }, [user]);
+    setSubtotal(getTotalPrice());
+  }, [items, getTotalPrice]);
 
   const fetchBackendCart = async () => {
     try {
       const { data } = await api.get('/cart');
-      if (data) {
-        // We might want to populate coupons to get details like code and amount
-        // But for now let's assume we get IDs or populated objects if backend supports it.
-        // The backend getCart just returns cart. We might need to populate in backend or fetch coupons details here.
-        // Let's assume we need to fetch coupon details if they are just IDs.
-        // Or better, update backend getCart to populate.
-        // For now, let's just rely on what we have. If appliedCoupons is array of IDs, we can't show codes easily without fetching.
-        // I'll assume for this implementation that we might need to improve backend getCart later, 
-        // but for now I will try to fetch coupon details if I have IDs.
-
-        // Actually, let's just use the totalDiscount from backend if available.
-        setBackendDiscount(data.totalDiscount || 0);
-        setAppliedCoupons(data.appliedCoupons || []);
-      }
+      setAppliedCoupons(data.appliedCoupons || []);
+      setBackendDiscount(data.discountAmount || 0);
     } catch (error) {
-      console.error('Error fetching cart:', error);
+      console.error('Error fetching backend cart:', error);
     }
   };
 
-  const fetchAvailableCoupons = async () => {
-    try {
-      const { data } = await api.get('/coupons');
-      setAvailableCoupons(data);
-    } catch (error) {
-      console.error('Error fetching coupons:', error);
+  useEffect(() => {
+    fetchBackendCart();
+    if (user) {
+      api.get('/coupons/available')
+        .then(res => setAvailableCoupons(res.data))
+        .catch(err => console.error(err));
     }
-  };
+  }, [user]);
 
   const handleApplyCoupon = async () => {
     if (!couponCode) return;
@@ -65,10 +50,10 @@ export default function CartPage() {
       await api.post('/coupons/apply', { code: couponCode });
       setCouponCode('');
       await fetchBackendCart(); // Refresh cart to get new discount
-      alert('Kupon başarıyla uygulandı!');
+      toast.success('Kupon başarıyla uygulandı!');
     } catch (error: any) {
       console.error('Error applying coupon:', error);
-      alert(error.response?.data?.message || 'Kupon uygulanamadı.');
+      toast.error(error.response?.data?.message || 'Kupon uygulanamadı.');
     } finally {
       setLoading(false);
     }

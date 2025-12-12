@@ -71,10 +71,14 @@ export default function NotificationsPage() {
             </div>
 
             {notifications.length === 0 ? (
-                <div className="text-center py-12 bg-white rounded-3xl shadow-lg border border-gray-100">
-                    <Bell className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900">Bildiriminiz yok</h3>
-                    <p className="text-gray-500 mt-2">Şu an için size ulaşan yeni bir bildirim bulunmuyor.</p>
+                <div className="text-center py-16 bg-white rounded-3xl shadow-lg border border-gray-100">
+                    <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Bell className="w-10 h-10 text-indigo-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Bildiriminiz Yok</h3>
+                    <p className="text-gray-500 max-w-sm mx-auto">
+                        Şu an için size ulaşan yeni bir bildirim bulunmuyor. Önemli gelişmelerden sizi haberdar edeceğiz.
+                    </p>
                 </div>
             ) : (
                 <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">

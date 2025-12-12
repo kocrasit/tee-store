@@ -2,33 +2,17 @@ import express from 'express';
 import { getDesigns, getDesignById, createDesign, getAllDesignsAdmin, deleteDesign, updateDesignStock, updateDesign } from '../controllers/designController';
 import { createProductReview } from '../controllers/reviewController';
 import { protect, checkRole } from '../middleware/authMiddleware';
-
-import multer from 'multer';
-import path from 'path';
-
-const storage = multer.diskStorage({
-    destination(req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename(req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-    },
-});
-
-const upload = multer({
-    storage,
-    fileFilter: function (req, file, cb) {
-        const filetypes = /jpeg|jpg|png|webp/;
-        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-        const mimetype = filetypes.test(file.mimetype);
-
-        if (extname && mimetype) {
-            return cb(null, true);
-        } else {
-            cb(new Error('Images only!'));
-        }
-    },
-});
+import { validate } from '../middlewares/validate';
+import { validateUploadedDesignImage, designImageUpload } from '../middlewares/upload';
+import { sensitiveLimiter } from '../middlewares/rateLimit';
+import {
+    createDesignBodySchema,
+    createReviewBodySchema,
+    designIdParamsSchema,
+    getDesignsQuerySchema,
+    updateDesignBodySchema,
+    updateStockBodySchema,
+} from '../validators/designSchemas';
 
 const router = express.Router();
 
@@ -39,17 +23,29 @@ router.route('/admin')
     .get(protect, checkRole(['admin']), getAllDesignsAdmin);
 
 router.route('/')
-    .get(getDesigns)
-    .post(protect, checkRole(['influencer', 'designer', 'admin']), upload.single('image'), createDesign);
+    .get(validate({ query: getDesignsQuerySchema }), getDesigns)
+    .post(
+        sensitiveLimiter,
+        protect,
+        checkRole(['influencer', 'designer', 'admin']),
+        designImageUpload.single('image'),
+        validateUploadedDesignImage,
+        validate({ body: createDesignBodySchema }),
+        createDesign
+    );
 
-router.route('/:id/reviews').post(protect, createProductReview);
+router.route('/:id/reviews').post(
+    protect,
+    validate({ params: designIdParamsSchema, body: createReviewBodySchema }),
+    createProductReview
+);
 
 router.route('/:id/stock')
-    .put(protect, checkRole(['admin']), updateDesignStock);
+    .put(protect, checkRole(['admin']), validate({ params: designIdParamsSchema, body: updateStockBodySchema }), updateDesignStock);
 
 router.route('/:id')
-    .get(getDesignById)
-    .put(protect, updateDesign)
+    .get(validate({ params: designIdParamsSchema }), getDesignById)
+    .put(protect, validate({ params: designIdParamsSchema, body: updateDesignBodySchema }), updateDesign)
     .delete(protect, checkRole(['admin']), deleteDesign);
 
 export default router;

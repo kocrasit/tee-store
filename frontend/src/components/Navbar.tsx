@@ -16,6 +16,7 @@ const Navbar: React.FC = () => {
   const setCart = useCartStore((state) => state.setCart);
   const clearCart = useCartStore((state) => state.clearCart);
   const [keyword, setKeyword] = useState('');
+  const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
 
   // Sync cart when user changes
@@ -55,6 +56,15 @@ const Navbar: React.FC = () => {
     fetchCart();
   }, [user, setCart]);
 
+  // Handle scroll for glassmorphic effect
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   React.useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (keyword) {
@@ -85,24 +95,29 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'glass-card shadow-lg'
+        : 'bg-white shadow-md'
+      }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center gap-2">
-              <span className="text-2xl font-bold text-indigo-600">TeeStore</span>
+            <Link href="/" className="flex-shrink-0 flex items-center gap-2 group">
+              <span className="text-2xl font-bold gradient-text group-hover:scale-105 transition-transform duration-300">
+                TeeStore
+              </span>
             </Link>
           </div>
 
           {/* Search Bar (Hidden on mobile) */}
           <div className="hidden md:flex items-center flex-1 px-8">
-            <div className="w-full max-w-lg relative">
+            <div className="w-full max-w-lg relative group">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+                <Search className="h-5 w-5 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
               </div>
               <input
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-full leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 ease-in-out"
+                className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-full leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm transition-all duration-300 focus:shadow-glow-sm"
                 placeholder="Tasarım, renk veya kategori ara..."
                 type="search"
                 value={keyword}
@@ -115,10 +130,10 @@ const Navbar: React.FC = () => {
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
             {user && (
-              <Link href="/cart" className="p-2 text-gray-400 hover:text-gray-500 relative">
-                <ShoppingCart className="h-6 w-6" />
+              <Link href="/cart" className="p-2 text-gray-400 hover:text-primary-600 relative group transition-colors">
+                <ShoppingCart className="h-6 w-6 group-hover:scale-110 transition-transform" />
                 {cartItemsCount > 0 && (
-                  <span className="absolute top-0 right-0 block h-5 w-5 rounded-full ring-2 ring-white bg-red-500 text-white text-xs font-bold flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 block h-5 w-5 rounded-full ring-2 ring-white bg-gradient-to-r from-primary-600 to-accent-600 text-white text-xs font-bold flex items-center justify-center animate-pulse-slow">
                     {cartItemsCount}
                   </span>
                 )}
@@ -127,34 +142,34 @@ const Navbar: React.FC = () => {
 
             {user ? (
               <div className="relative group">
-                <button className="flex items-center p-2 text-gray-500 hover:text-indigo-600 focus:outline-none">
-                  <div className="bg-gray-100 p-2 rounded-full">
-                    <User className="h-6 w-6" />
+                <button className="flex items-center p-2 text-gray-500 hover:text-primary-600 focus:outline-none transition-colors">
+                  <div className="bg-gradient-to-br from-primary-100 to-accent-100 p-2 rounded-full group-hover:shadow-glow-sm transition-all">
+                    <User className="h-6 w-6 text-primary-600" />
                   </div>
                 </button>
 
                 {/* Dropdown Menu */}
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl py-2 ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-right">
-                  <div className="px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-t-xl">
-                    <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">Hoşgeldin</p>
-                    <p className="text-sm font-bold text-gray-900 truncate mt-0.5">{user.firstName} {user.lastName}</p>
+                <div className="absolute right-0 mt-2 w-64 glass-card rounded-2xl shadow-2xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform origin-top-right scale-95 group-hover:scale-100">
+                  <div className="px-4 py-3 border-b border-white/20 bg-gradient-to-r from-primary-500/10 to-accent-500/10 rounded-t-2xl">
+                    <p className="text-xs text-gray-600 font-medium uppercase tracking-wider">Hoşgeldin</p>
+                    <p className="text-sm font-bold gradient-text truncate mt-0.5">{user.firstName} {user.lastName}</p>
                   </div>
 
                   <div className="py-2">
                     <Link
                       href={user.role === 'influencer' ? '/profile/influencer' : '/profile/customer'}
-                      className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+                      className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-all group/item"
                     >
-                      <User className="w-4 h-4 mr-3 text-gray-400" />
+                      <User className="w-4 h-4 mr-3 text-gray-400 group-hover/item:text-primary-500 transition-colors" />
                       Profilim
                     </Link>
 
                     {user.role === 'admin' && (
                       <Link
                         href="/admin/dashboard"
-                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-all group/item"
                       >
-                        <LayoutDashboard className="w-4 h-4 mr-3 text-gray-400" />
+                        <LayoutDashboard className="w-4 h-4 mr-3 text-gray-400 group-hover/item:text-primary-500 transition-colors" />
                         Admin Dashboard
                       </Link>
                     )}
@@ -162,23 +177,23 @@ const Navbar: React.FC = () => {
                     {user.role === 'influencer' && (
                       <Link
                         href="/influencer/dashboard"
-                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-purple-600 transition-colors"
+                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-accent-50 hover:text-accent-600 transition-all group/item"
                       >
-                        <LayoutDashboard className="w-4 h-4 mr-3 text-gray-400" />
+                        <LayoutDashboard className="w-4 h-4 mr-3 text-gray-400 group-hover/item:text-accent-500 transition-colors" />
                         Influencer Panel
                       </Link>
                     )}
                   </div>
 
-                  <div className="border-t border-gray-100 pt-2 pb-1">
+                  <div className="border-t border-white/20 pt-2 pb-1">
                     <button
                       onClick={() => {
                         logout();
                         window.location.href = '/';
                       }}
-                      className="w-full text-left flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      className="w-full text-left flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-all group/item"
                     >
-                      <LogOut className="w-4 h-4 mr-3" />
+                      <LogOut className="w-4 h-4 mr-3 group-hover/item:scale-110 transition-transform" />
                       Çıkış Yap
                     </button>
                   </div>
@@ -186,8 +201,8 @@ const Navbar: React.FC = () => {
               </div>
             ) : (
               <div className="flex items-center space-x-4 text-sm font-medium">
-                <Link href="/auth/login" className="text-gray-500 hover:text-gray-900">Giriş</Link>
-                <Link href="/auth/register" className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">Kayıt Ol</Link>
+                <Link href="/auth/login" className="text-gray-500 hover:text-primary-600 transition-colors">Giriş</Link>
+                <Link href="/auth/register" className="btn-gradient">Kayıt Ol</Link>
               </div>
             )}
           </div>

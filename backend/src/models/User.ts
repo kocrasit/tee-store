@@ -18,6 +18,7 @@ export interface IUser extends Document {
   verified: boolean;
   resetPasswordToken?: string;
   resetPasswordExpires?: Date;
+  refreshTokenHash?: string;
   createdAt: Date;
   updatedAt: Date;
   influencerProfile?: {
@@ -54,6 +55,7 @@ const UserSchema: Schema = new Schema(
     verified: { type: Boolean, default: false },
     resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date },
+    refreshTokenHash: { type: String },
     influencerProfile: {
       bio: String,
       socialLinks: {

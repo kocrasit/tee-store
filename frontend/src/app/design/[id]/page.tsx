@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import { Star, ShoppingCart, Truck, ShieldCheck, ArrowLeft, Loader2 } from 'lucide-react';

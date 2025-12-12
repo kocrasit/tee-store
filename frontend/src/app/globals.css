@@ -2,3 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-neon: linear-gradient(135deg, #00f0ff 0%, #bf00ff 50%, #ff00e5 100%);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+
+  /* Glassmorphism utilities */
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-gray-900/40 backdrop-blur-md border border-white/10;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-lg border border-white/20 shadow-glass;
+  }
+
+  /* Gradient text utilities */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-accent-500;
+  }
+
+  .gradient-text-neon {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink;
+  }
+
+  /* Button with gradient and glow */
+  .btn-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-glow transition-all duration-300 hover:scale-105;
+  }
+
+  .btn-glass {
+    @apply glass text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/20 transition-all duration-300;
+  }
+
+  /* Card with hover effect */
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl;
+  }
+
+  /* Shimmer effect for loading */
+  .shimmer {
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0.5) 60%,
+        rgba(255, 255, 255, 0));
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+  }
+}
+
+@layer utilities {
+
+  /* Text shadow utilities */
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Glow text */
+  .text-glow {
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.5),
+      0 0 20px rgba(168, 85, 247, 0.3);
+  }
+
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

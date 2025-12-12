@@ -5,13 +5,15 @@ import {
     getUserNotifications,
     markAsRead,
 } from '../controllers/notificationController';
+import { validate } from '../middlewares/validate';
+import { notificationIdParamsSchema, sendNotificationBodySchema } from '../validators/notificationSchemas';
 
 const router = express.Router();
 
 router.route('/')
-    .post(protect, admin, sendNotification)
+    .post(protect, admin, validate({ body: sendNotificationBodySchema }), sendNotification)
     .get(protect, getUserNotifications);
 
-router.put('/:id/read', protect, markAsRead);
+router.put('/:id/read', protect, validate({ params: notificationIdParamsSchema }), markAsRead);
 
 export default router;

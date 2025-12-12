@@ -52,10 +52,14 @@ export default function CouponsPage() {
             </div>
 
             {coupons.length === 0 ? (
-                <div className="text-center py-12 bg-white rounded-3xl shadow-lg border border-gray-100">
-                    <Ticket className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900">Aktif kuponunuz yok</h3>
-                    <p className="text-gray-500 mt-2">Kampanyaları takip ederek indirim fırsatlarını yakalayın.</p>
+                <div className="text-center py-16 bg-white rounded-3xl shadow-lg border border-gray-100">
+                    <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Ticket className="w-10 h-10 text-indigo-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Aktif Kuponunuz Yok</h3>
+                    <p className="text-gray-500 max-w-sm mx-auto">
+                        Kampanyaları takip ederek indirim fırsatlarını yakalayın. Yeni kuponlar hesabınıza tanımlandığında burada görebileceksiniz.
+                    </p>
                 </div>
             ) : (
                 <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
