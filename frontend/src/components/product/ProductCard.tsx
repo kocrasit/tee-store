@@ -41,45 +41,42 @@ export function ProductCard({
   onAddToCart,
 }: ProductCardProps) {
   return (
-    <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-glow transition-all duration-500 hover:-translate-y-2 animate-fade-in-up">
+    <div className="group relative bg-[#FDFBF7] rounded-none border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-500">
       {/* Image Container */}
-      <div className="relative h-80 w-full overflow-hidden bg-gradient-to-br from-primary-50 to-accent-50">
+      <div className="relative h-96 w-full overflow-hidden bg-gray-50">
         <img
           src={getImageUrl(image)}
           alt={title}
-          className="w-full h-full object-center object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-center object-cover transition-transform duration-700 group-hover:scale-105 saturate-0 group-hover:saturate-100"
         />
 
-        {/* Gradient Overlay on Hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-        {/* Influencer Badge */}
+        {/* Influencer Badge - Dark Blue */}
         {userRole === 'influencer' && (
-          <div className="absolute top-3 right-3 glass-card px-3 py-1.5 rounded-full backdrop-blur-md z-10">
-            <span className="text-xs font-bold gradient-text-neon">✨ Influencer</span>
+          <div className="absolute top-4 right-4 bg-[#172554] text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest z-10">
+            Influencer
           </div>
         )}
 
-        {/* Quick View Button */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
+        {/* Quick View Button - Appears on Hover */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-[#172554]/20 z-10">
           <Link
             href={`/design/${id}`}
-            className="btn-gradient transform scale-90 group-hover:scale-100 transition-transform duration-300"
+            className="bg-white text-[#172554] px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-[#172554] hover:text-white transition-colors duration-300"
           >
-            Hızlı Görüntüle
+            İncele
           </Link>
         </div>
       </div>
 
       {/* Card Content */}
-      <div className="p-5 space-y-3">
-        {/* Category */}
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider gradient-text">
+      <div className="p-6 space-y-4">
+        {/* Category & Author */}
+        <div className="flex items-center justify-between border-b border-gray-200 pb-3">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#1e3a8a]">
             {categoryLabels[category] || category}
           </span>
           {uploadedBy && (
-            <div className="flex items-center text-xs text-gray-500 gap-1">
+            <div className="flex items-center text-[10px] font-medium text-[#1e3a8a]/70 gap-1 uppercase tracking-wider">
               <User className="w-3 h-3" />
               <span className="truncate max-w-[100px]">
                 {uploadedBy.firstName} {uploadedBy.lastName}
@@ -89,46 +86,40 @@ export function ProductCard({
         </div>
 
         {/* Title */}
-        <h3 className="text-lg font-bold text-gray-900 line-clamp-2 min-h-[3.5rem] group-hover:text-primary-600 transition-colors duration-300">
+        <h3 className="text-lg font-medium text-[#172554] line-clamp-1 group-hover:text-[#1e40af] transition-colors">
           <Link href={`/design/${id}`}>{title}</Link>
         </h3>
 
         {/* Rating */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center">
+        <div className="flex items-center gap-1">
+          <div className="flex items-center text-[#172554]">
             {[0, 1, 2, 3, 4].map((ratingVal) => (
               <Star
                 key={ratingVal}
-                className={`h-4 w-4 transition-colors ${
-                  rating > ratingVal ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-                }`}
+                className={`h-3 w-3 ${rating > ratingVal ? 'fill-[#172554] text-[#172554]' : 'text-gray-300'
+                  }`}
               />
             ))}
           </div>
-          <span className="text-sm text-gray-500">({reviewsCount})</span>
+          <span className="text-[10px] text-[#1e3a8a]/60 ml-1">({reviewsCount})</span>
         </div>
 
         {/* Price and Add to Cart */}
-        <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+        <div className="flex items-center justify-between pt-2">
           <div>
-            <p className="text-2xl font-bold gradient-text">₺{price.toFixed(2)}</p>
+            <p className="text-xl font-light text-[#172554]">₺{price.toFixed(2)}</p>
           </div>
           <button
             onClick={onAddToCart}
-            className="group/btn relative bg-gradient-to-r from-primary-600 to-accent-600 text-white p-3 rounded-xl hover:shadow-glow transition-all duration-300 hover:scale-110 overflow-hidden"
+            className="bg-[#172554] text-white p-3 rounded-full hover:bg-[#1e3a8a] transition-colors duration-300"
             aria-label="Sepete Ekle"
           >
-            <span className="absolute inset-0 bg-white/20 scale-0 group-hover/btn:scale-100 transition-transform duration-500 rounded-full" />
-            <ShoppingCart className="h-5 w-5 relative z-10" />
+            <ShoppingCart className="h-4 w-4" />
           </button>
         </div>
       </div>
-
-      {/* Decorative glow effect */}
-      <div className="absolute -bottom-2 -right-2 w-24 h-24 bg-primary-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
     </div>
   );
 }
 
 export default ProductCard;
-

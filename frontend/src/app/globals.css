@@ -4,9 +4,9 @@
 
 @layer base {
   :root {
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-neon: linear-gradient(135deg, #00f0ff 0%, #bf00ff 50%, #ff00e5 100%);
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 255, 255, 255;
+    --background-end-rgb: 255, 255, 255;
   }
 
   html {

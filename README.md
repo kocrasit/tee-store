@@ -20,7 +20,7 @@ Modern bir e-ticaret platformu. Influencer'lar ve tasarımcılar için özel tas
 
 ## 🛠️ Teknolojiler
 
-### Backend
+### BackendApplication error: a client-side exception has occurred (see the browser console for more information).
 - Node.js & Express.js
 - TypeScript
 - MongoDB & Mongoose

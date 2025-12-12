@@ -23,7 +23,7 @@ app.use(helmet({
   crossOriginResourcePolicy: false,
 }));
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173'], // Allow Next.js and Vite
+  origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:3001'], // Allow Next.js and Vite
   credentials: true
 }));
 app.use(express.json({ limit: '50mb' }));
