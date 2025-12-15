@@ -59,25 +59,6 @@ export default function ProductSwiper({ products }: ProductSwiperProps) {
             {/* Custom Styles for Swiper Navigation if needed, typically global styles or CSS modules are better, 
           but here we rely on default Swiper styles which are usually sufficient or overridden in globals.css 
       */}
-            <style jsx global>{`
-        .swiper-button-next,
-        .swiper-button-prev {
-          color: #D4AF37 !important;
-          background: rgba(255, 255, 255, 0.9);
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .swiper-button-next:after,
-        .swiper-button-prev:after {
-          font-size: 18px !important;
-          font-weight: bold;
-        }
-        .swiper-button-disabled {
-          opacity: 0 !important;
-        }
-      `}</style>
         </div>
     );
 }

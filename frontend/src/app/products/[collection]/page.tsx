@@ -30,19 +30,19 @@ export default function CollectionPage() {
         }
     };
 
-    const { data, isLoading } = useQuery({
+    const filter = getFilterParam(collection);
+
+    const { data, isLoading, isError } = useQuery({
         queryKey: ['products', 'collection', collection],
         queryFn: async () => {
-            const filter = getFilterParam(collection);
-            // Pass filter param to the API
-            // Ensure backend supports ?filter=new|best|sale
-            const res = await api.get(`/designs?filter=${filter}`);
+            const endpoint = filter ? `/designs?filter=${filter}` : '/designs';
+            const res = await api.get(endpoint);
             return res.data;
         },
         enabled: !!collection,
     });
 
-    const products = data?.data?.designs || [];
+    const products = Array.isArray(data?.designs) ? (data?.designs as any[]) : [];
 
     return (
         <div className="min-h-screen bg-gray-50 py-16">
@@ -60,12 +60,16 @@ export default function CollectionPage() {
                     </div>
                 ) : (
                     <>
-                        {products.length === 0 ? (
+                        {isError ? (
+                            <div className="text-center py-20">
+                                <p className="text-lg text-red-500">Koleksiyon yüklenirken bir sorun oluştu.</p>
+                            </div>
+                        ) : products.length === 0 ? (
                             <div className="text-center py-20">
                                 <p className="text-lg text-gray-500">Bu koleksiyonda henüz ürün bulunmuyor.</p>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                            <div className="grid grid-cols-2 gap-4 sm:gap-y-10 md:grid-cols-3 md:gap-x-6 xl:grid-cols-4 xl:gap-x-8">
                                 {products.map((design: any) => (
                                     <ProductCard
                                         key={design._id}

@@ -1,12 +1,11 @@
 import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
 
 /**
  * Tailwind class'larını birleştirme utility'si
  * clsx + tailwind-merge kombinasyonu
  */
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return clsx(inputs);
 }
 
 /**

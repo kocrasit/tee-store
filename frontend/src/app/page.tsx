@@ -4,7 +4,8 @@ import React from 'react';
 import ProductCard from "@/components/product/ProductCard";
 import { BannerGrid } from "@/components/home/BannerGrid";
 import ProductSwiper from "@/components/product/ProductSwiper";
-import SecondaryProductCard from "@/components/product/SecondaryProductCard";
+import FeaturedBannerCard, { type FeaturedBanner } from "@/components/home/FeaturedBannerCard";
+import MobileHero from "@/components/home/MobileHero";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/api/axios";
 import { Loader2 } from "lucide-react";
@@ -67,6 +68,18 @@ function HomeContent() {
     },
   });
 
+  const {
+    data: bannerData,
+    isLoading: isBannerLoading,
+    isError: isBannerError,
+  } = useQuery<FeaturedBanner[]>({
+    queryKey: ["banners", "home"],
+    queryFn: async () => {
+      const res = await api.get("/banners");
+      return res.data;
+    },
+  });
+
   if (isLoading) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -97,7 +110,10 @@ function HomeContent() {
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
       <div className="relative">
-        <LoginHero3D />
+        <div className="hidden md:block">
+          <LoginHero3D />
+        </div>
+        <MobileHero />
       </div>
 
       {/* Small Promo Banners */}
@@ -145,24 +161,30 @@ function HomeContent() {
         {/* Product Swiper */}
         <ProductSwiper products={filteredDesigns} />
 
-        {/* Trend Designs Section (2 Large Cards) */}
+        {/* Admin Managed Featured Banners */}
         <div className="mt-24 mb-16">
           <h2 className="text-3xl font-black uppercase tracking-tighter text-[#28282B] mb-8 text-center">
-            Trend <span className="text-gold">Tasarımlar</span>
+            Öne Çıkan <span className="text-gold">Reklamlar</span>
           </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {filteredDesigns.slice(0, 2).map((design: any) => (
-              <SecondaryProductCard
-                key={`trend-${design._id}`}
-                id={design._id}
-                title={design.title}
-                price={design.price}
-                image={design.images?.preview}
-                category={design.category || "Trend"}
-              />
-            ))}
-          </div>
+          {isBannerLoading ? (
+            <div className="flex items-center justify-center min-h-[200px]">
+              <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+            </div>
+          ) : isBannerError ? (
+            <div className="text-center text-red-500">
+              Reklamlar yüklenemedi. Lütfen daha sonra tekrar deneyin.
+            </div>
+          ) : bannerData && bannerData.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {bannerData.slice(0, 2).map((banner) => (
+                <FeaturedBannerCard key={banner._id} banner={banner} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-gray-500">
+              Henüz aktif bir reklam bulunmuyor.
+            </div>
+          )}
         </div>
 
         {/* All Products Grid */}
@@ -170,7 +192,7 @@ function HomeContent() {
           <h2 className="text-2xl font-bold text-[#28282B] mb-6 border-l-4 border-gold pl-4 uppercase tracking-wider">
             Keşfetmeye <span className="text-gray-400">Devam Et</span>
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
             {filteredDesigns.slice(2).map((design: any) => (
               <ProductCard
                 key={`grid-${design._id}`}
