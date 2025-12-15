@@ -23,8 +23,21 @@ const app: Application = express();
 app.use(helmet({
   crossOriginResourcePolicy: false,
 }));
+
+const localOrigins = ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:3001'];
+const envOrigins = (process.env.CORS_ORIGINS || process.env.FRONTEND_URL || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+const allowedOrigins = Array.from(new Set([...localOrigins, ...envOrigins]));
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:3001'], // Allow Next.js and Vite
+  origin(origin, callback) {
+    // allow server-to-server / curl (no Origin header)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error(`CORS blocked: ${origin}`));
+  },
   credentials: true
 }));
 app.use(express.json({ limit: '50mb' }));
