@@ -12,9 +12,13 @@ dist
 dist-ssr
 *.local
 .next
+.vercel
 .env
 .env.local
 .env.production
+.env.development
+.env.test
+coverage
 
 # Editor directories and files
 .vscode/*

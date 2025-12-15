@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Text3D, Stars, Center, Sparkles, Environment, DragControls } from '@react-three/drei';
+import { Text3D, Stars, Center, Sparkles, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Solid White Moon Component
@@ -28,46 +28,34 @@ const Moon = () => {
     );
 };
 
-const DraggableLetter = ({ char, position, fontUrl }: { char: string, position: [number, number, number], fontUrl: string }) => {
-    const [hovered, setHover] = useState(false);
-
-    // Using DragControls to allow dragging directly
-    // The matrix of the object inside will be mutated by DragControls
-
+const Letter = ({ char, position, fontUrl }: { char: string, position: [number, number, number], fontUrl: string }) => {
     return (
-        <DragControls
-            onDragStart={() => { document.body.style.cursor = 'grabbing'; }}
-            onDragEnd={() => { document.body.style.cursor = 'grab'; }}
-        >
-            <group position={position}>
-                <Center>
-                    <Text3D
-                        font={fontUrl}
-                        curveSegments={32}
-                        bevelEnabled
-                        bevelSize={0.02}
-                        bevelThickness={0.05}
-                        height={0.15}
-                        lineHeight={0.5}
-                        letterSpacing={-0.05}
-                        size={1.5}
-                        onPointerOver={() => { document.body.style.cursor = 'grab'; setHover(true); }}
-                        onPointerOut={() => { document.body.style.cursor = 'auto'; setHover(false); }}
-                    >
-                        {char}
-                        {/* Pure BEMBEYAZ White Material */}
-                        <meshStandardMaterial
-                            color="#ffffff"
-                            emissive="#ffffff"
-                            emissiveIntensity={0.35}
-                            metalness={0.1}
-                            roughness={0.1}
-                            envMapIntensity={1}
-                        />
-                    </Text3D>
-                </Center>
-            </group>
-        </DragControls>
+        <group position={position}>
+            <Center>
+                <Text3D
+                    font={fontUrl}
+                    curveSegments={32}
+                    bevelEnabled
+                    bevelSize={0.02}
+                    bevelThickness={0.05}
+                    height={0.15}
+                    lineHeight={0.5}
+                    letterSpacing={-0.05}
+                    size={1.5}
+                >
+                    {char}
+                    {/* Pure BEMBEYAZ White Material */}
+                    <meshStandardMaterial
+                        color="#ffffff"
+                        emissive="#ffffff"
+                        emissiveIntensity={0.35}
+                        metalness={0.1}
+                        roughness={0.1}
+                        envMapIntensity={1}
+                    />
+                </Text3D>
+            </Center>
+        </group>
     );
 };
 
@@ -80,7 +68,7 @@ const Word = () => {
     return (
         <group>
             {word.split('').map((char, i) => (
-                <DraggableLetter
+                <Letter
                     key={i}
                     char={char}
                     position={[startX + (i * letterSpacing), 0, 0]}

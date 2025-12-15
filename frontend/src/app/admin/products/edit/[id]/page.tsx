@@ -19,6 +19,9 @@ export default function EditProductPage() {
         category: '',
         stock: 0,
         status: 'published',
+        isNewSeason: false,
+        isBestSeller: false,
+        isSale: false,
     });
 
     const { data: product, isLoading } = useQuery({
@@ -38,6 +41,9 @@ export default function EditProductPage() {
                 category: product.category || '',
                 stock: product.stock || 0,
                 status: product.status || 'published',
+                isNewSeason: product.isNewSeason || false,
+                isBestSeller: product.isBestSeller || false,
+                isSale: product.isSale || false,
             });
         }
     }, [product]);
@@ -160,6 +166,37 @@ export default function EditProductPage() {
                             <option value="published">Yayında</option>
                             <option value="draft">Taslak</option>
                         </select>
+                    </div>
+
+                    {/* Collection Tags */}
+                    <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t">
+                        <label className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={formData.isNewSeason}
+                                onChange={(e) => setFormData({ ...formData, isNewSeason: e.target.checked })}
+                                className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
+                            />
+                            <span className="text-sm font-medium text-gray-700">Yeni Sezon</span>
+                        </label>
+                        <label className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={formData.isBestSeller}
+                                onChange={(e) => setFormData({ ...formData, isBestSeller: e.target.checked })}
+                                className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
+                            />
+                            <span className="text-sm font-medium text-gray-700">Çok Satanlar</span>
+                        </label>
+                        <label className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={formData.isSale}
+                                onChange={(e) => setFormData({ ...formData, isSale: e.target.checked })}
+                                className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
+                            />
+                            <span className="text-sm font-medium text-gray-700">İndirim</span>
+                        </label>
                     </div>
                 </div>
 

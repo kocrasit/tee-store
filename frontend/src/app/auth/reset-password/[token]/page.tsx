@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
+import { Loader2, Lock, ArrowLeft, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
 
 export default function ResetPasswordPage() {
     const [password, setPassword] = useState('');
@@ -83,10 +84,10 @@ export default function ResetPasswordPage() {
 
     if (verifying) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50">
+            <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Token doğrulanıyor...</p>
+                    <Loader2 className="h-12 w-12 animate-spin text-white mx-auto mb-4" />
+                    <p className="text-gray-400 font-medium">Token doğrulanıyor...</p>
                 </div>
             </div>
         );
@@ -94,29 +95,18 @@ export default function ResetPasswordPage() {
 
     if (!tokenValid) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 px-4">
-                <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg
-                            className="w-8 h-8 text-red-600"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M6 18L18 6M6 6l12 12"
-                            />
-                        </svg>
+            <div className="min-h-screen flex items-center justify-center bg-black px-4">
+                <div className="glass-dark p-10 rounded-3xl shadow-2xl border border-white/10 text-center max-w-md w-full">
+                    <div className="w-16 h-16 bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/30">
+                        <AlertCircle className="w-8 h-8 text-red-400" />
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">Geçersiz Link</h1>
-                    <p className="text-gray-600 mb-6">{error}</p>
+                    <h1 className="text-2xl font-black text-white mb-2">Geçersiz Bağlantı</h1>
+                    <p className="text-gray-400 mb-8 font-medium">{error}</p>
                     <Link
                         href="/auth/forgot-password"
-                        className="inline-block bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all"
+                        className="inline-flex items-center justify-center bg-white text-black px-8 py-4 rounded-xl font-bold hover:bg-gray-200 transition-all w-full"
                     >
+                        <RefreshCw className="w-4 h-4 mr-2" />
                         Yeni Link İste
                     </Link>
                 </div>
@@ -126,101 +116,115 @@ export default function ResetPasswordPage() {
 
     if (success) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 px-4">
-                <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg
-                            className="w-8 h-8 text-green-600"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
+            <div className="min-h-screen flex items-center justify-center bg-black px-4">
+                <div className="glass-dark p-10 rounded-3xl shadow-2xl border border-white/10 text-center max-w-md w-full animate-fade-in-up">
+                    <div className="w-16 h-16 bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/30">
+                        <CheckCircle className="w-8 h-8 text-green-400" />
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">Şifre Sıfırlandı!</h1>
-                    <p className="text-gray-600 mb-4">Şifreniz başarıyla güncellendi.</p>
-                    <p className="text-sm text-gray-500">Giriş sayfasına yönlendiriliyorsunuz...</p>
+                    <h1 className="text-2xl font-black text-white mb-2">Şifre Sıfırlandı!</h1>
+                    <p className="text-gray-400 mb-6 font-medium">Şifreniz başarıyla güncellendi.</p>
+                    <p className="text-sm text-gray-500 animate-pulse">Giriş sayfasına yönlendiriliyorsunuz...</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 px-4">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Yeni Şifre Belirle</h1>
-                    <p className="text-gray-600">
-                        {userEmail && `${userEmail} için yeni şifre oluşturun`}
-                    </p>
-                </div>
+        <div className="min-h-screen flex items-center justify-center bg-black py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            {/* Subtle background effects */}
+            <div className="absolute inset-0">
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-800/20 via-black to-black" />
+            </div>
 
-                {error && (
-                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                        <p className="text-red-800 text-sm">{error}</p>
+            <div className="max-w-md w-full relative z-10">
+                <div className="glass-dark p-10 rounded-3xl shadow-2xl border border-white/10">
+                    <div className="text-center mb-8">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-2xl mb-4 border border-white/20 shadow-lg backdrop-blur-sm">
+                            <Lock className="w-8 h-8 text-white" />
+                        </div>
+                        <h1 className="text-3xl font-black text-white mb-2 tracking-tight">Yeni Şifre Belirle</h1>
+                        <p className="text-gray-400 text-sm">
+                            {userEmail && <span className="font-bold text-white block mb-1">{userEmail}</span>}
+                            için yeni şifre oluşturun
+                        </p>
                     </div>
-                )}
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                            Yeni Şifre
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            minLength={6}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                            placeholder="En az 6 karakter"
+                    {error && (
+                        <div className="mb-6 p-4 bg-red-900/30 border border-red-500/50 rounded-xl animate-scale-in">
+                            <div className="flex items-center gap-3">
+                                <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
+                                <p className="text-red-200 text-sm font-medium">{error}</p>
+                            </div>
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <label htmlFor="password" className="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">
+                                Yeni Şifre
+                            </label>
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <Lock className="h-5 w-5 text-gray-500 group-focus-within:text-white transition-colors duration-300" />
+                                </div>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                    minLength={6}
+                                    className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 focus:border-white focus:bg-white/10 text-white placeholder-gray-600 outline-none transition-all duration-300"
+                                    placeholder="En az 6 karakter"
+                                    disabled={loading}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label htmlFor="confirmPassword" className="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">
+                                Şifre Tekrar
+                            </label>
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <Lock className="h-5 w-5 text-gray-500 group-focus-within:text-white transition-colors duration-300" />
+                                </div>
+                                <input
+                                    type="password"
+                                    id="confirmPassword"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                    minLength={6}
+                                    className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 focus:border-white focus:bg-white/10 text-white placeholder-gray-600 outline-none transition-all duration-300"
+                                    placeholder="Şifrenizi tekrar girin"
+                                    disabled={loading}
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
                             disabled={loading}
-                        />
-                    </div>
-
-                    <div>
-                        <label
-                            htmlFor="confirmPassword"
-                            className="block text-sm font-medium text-gray-700 mb-2"
+                            className="w-full bg-white text-black hover:bg-gray-200 py-4 rounded-xl text-base font-bold disabled:opacity-50 disabled:cursor-not-allowed group transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
                         >
-                            Şifre Tekrar
-                        </label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
-                            minLength={6}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                            placeholder="Şifrenizi tekrar girin"
-                            disabled={loading}
-                        />
+                            {loading ? (
+                                <Loader2 className="w-5 h-5 animate-spin mx-auto text-black" />
+                            ) : (
+                                'Şifreyi Kaydet'
+                            )}
+                        </button>
+                    </form>
+
+                    <div className="mt-8 text-center pt-6 border-t border-white/10">
+                        <Link
+                            href="/auth/login"
+                            className="inline-flex items-center text-gray-400 hover:text-white text-sm font-medium transition-colors group"
+                        >
+                            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+                            Giriş sayfasına dön
+                        </Link>
                     </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
-                    >
-                        {loading ? 'Kaydediliyor...' : 'Şifreyi Kaydet'}
-                    </button>
-                </form>
-
-                <div className="mt-6 text-center">
-                    <Link
-                        href="/auth/login"
-                        className="text-purple-600 hover:text-purple-700 text-sm font-medium"
-                    >
-                        ← Giriş sayfasına dön
-                    </Link>
                 </div>
             </div>
         </div>

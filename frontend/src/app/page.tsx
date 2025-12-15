@@ -2,6 +2,9 @@
 
 import React from 'react';
 import ProductCard from "@/components/product/ProductCard";
+import { BannerGrid } from "@/components/home/BannerGrid";
+import ProductSwiper from "@/components/product/ProductSwiper";
+import SecondaryProductCard from "@/components/product/SecondaryProductCard";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/api/axios";
 import { Loader2 } from "lucide-react";
@@ -97,17 +100,22 @@ function HomeContent() {
         <LoginHero3D />
       </div>
 
-      {/* Products Grid */}
+      {/* Small Promo Banners */}
+      <BannerGrid />
+
+      {/* Products Section */}
       <div id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="flex flex-col sm:flex-row items-center justify-between mb-12 gap-6">
-          <h2 className="text-2xl font-black uppercase tracking-tighter text-black">Popüler Tasarımlar</h2>
+        <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-6">
+          <h2 className="text-2xl font-black uppercase tracking-tighter text-[#28282B]">
+            Popüler <span className="text-gold">Tasarımlar</span>
+          </h2>
 
           {/* Filter Tabs */}
-          <div className="flex gap-2 p-1 bg-gray-100 rounded-lg">
+          <div className="flex gap-2 p-1 bg-gray-100 border border-gray-200 rounded-lg">
             <button
               onClick={() => setFilter('all')}
               className={`px-6 py-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 rounded-md ${filter === 'all'
-                ? 'bg-white text-black shadow-sm'
+                ? 'bg-gold-soft text-gold border border-gold shadow-sm'
                 : 'text-gray-500 hover:text-black'
                 }`}
             >
@@ -116,7 +124,7 @@ function HomeContent() {
             <button
               onClick={() => setFilter('influencer')}
               className={`px-6 py-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 rounded-md ${filter === 'influencer'
-                ? 'bg-white text-black shadow-sm'
+                ? 'bg-gold-soft text-gold border border-gold shadow-sm'
                 : 'text-gray-500 hover:text-black'
                 }`}
             >
@@ -125,7 +133,7 @@ function HomeContent() {
             <button
               onClick={() => setFilter('company')}
               className={`px-6 py-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 rounded-md ${filter === 'company'
-                ? 'bg-white text-black shadow-sm'
+                ? 'bg-gold-soft text-gold border border-gold shadow-sm'
                 : 'text-gray-500 hover:text-black'
                 }`}
             >
@@ -134,21 +142,50 @@ function HomeContent() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {filteredDesigns.map((design: any) => (
-            <ProductCard
-              key={design._id}
-              id={design._id}
-              title={design.title}
-              price={design.price}
-              image={design.images?.preview}
-              category={design.category}
-              rating={typeof design.rating === "number" ? design.rating : 0}
-              reviewsCount={Array.isArray(design.reviews) ? design.reviews.length : 0}
-              userRole={design.userRole}
-              uploadedBy={design.uploadedBy}
-            />
-          ))}
+        {/* Product Swiper */}
+        <ProductSwiper products={filteredDesigns} />
+
+        {/* Trend Designs Section (2 Large Cards) */}
+        <div className="mt-24 mb-16">
+          <h2 className="text-3xl font-black uppercase tracking-tighter text-[#28282B] mb-8 text-center">
+            Trend <span className="text-gold">Tasarımlar</span>
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {filteredDesigns.slice(0, 2).map((design: any) => (
+              <SecondaryProductCard
+                key={`trend-${design._id}`}
+                id={design._id}
+                title={design.title}
+                price={design.price}
+                image={design.images?.preview}
+                category={design.category || "Trend"}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* All Products Grid */}
+        <div className="mb-24">
+          <h2 className="text-2xl font-bold text-[#28282B] mb-6 border-l-4 border-gold pl-4 uppercase tracking-wider">
+            Keşfetmeye <span className="text-gray-400">Devam Et</span>
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {filteredDesigns.slice(2).map((design: any) => (
+              <ProductCard
+                key={`grid-${design._id}`}
+                id={design._id}
+                title={design.title}
+                price={design.price}
+                image={design.images?.preview}
+                category={design.category}
+                rating={typeof design.rating === "number" ? design.rating : 0}
+                reviewsCount={Array.isArray(design.reviews) ? design.reviews.length : 0}
+                userRole={design.userRole}
+                uploadedBy={design.uploadedBy}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </main>

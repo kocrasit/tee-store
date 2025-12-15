@@ -35,49 +35,49 @@ export default function ProfileLayout({
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-950 via-blue-900 via-40% to-gray-100 py-12">
+        <div className="min-h-screen bg-gray-50 py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row gap-8">
                     {/* Sidebar */}
                     <div className="w-full md:w-72 flex-shrink-0">
-                        <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl border border-white/20 overflow-hidden sticky top-8">
-                            <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-indigo-500/5 to-purple-500/5">
-                                <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden sticky top-8">
+                            <div className="p-6 border-b border-gray-100 bg-gray-50/50">
+                                <div className="flex items-center gap-4 mb-1">
+                                    <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-bold text-xl shadow-md">
                                         {user?.firstName?.[0]}{user?.lastName?.[0]}
                                     </div>
-                                    <div>
-                                        <h2 className="text-lg font-bold text-gray-900">{user?.firstName} {user?.lastName}</h2>
-                                        <p className="text-xs text-gray-500 font-medium">{user?.email}</p>
+                                    <div className="overflow-hidden">
+                                        <h2 className="text-base font-bold text-gray-900 truncate">{user?.firstName} {user?.lastName}</h2>
+                                        <p className="text-xs text-gray-500 font-medium truncate">{user?.email}</p>
                                     </div>
                                 </div>
                             </div>
-                            <nav className="p-4 space-y-2">
+                            <nav className="p-3 space-y-1">
                                 {navigation.map((item) => {
                                     const isActive = pathname === item.href;
                                     return (
                                         <Link
                                             key={item.name}
                                             href={item.href}
-                                            className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-300 group ${isActive
-                                                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-200'
-                                                : 'text-gray-600 hover:bg-white hover:shadow-md hover:text-indigo-600'
+                                            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 group ${isActive
+                                                ? 'bg-black text-white shadow-lg shadow-black/10'
+                                                : 'text-gray-600 hover:bg-gray-100/80 hover:text-black'
                                                 }`}
                                         >
-                                            <item.icon className={`w-5 h-5 transition-colors ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-indigo-600'}`} />
+                                            <item.icon className={`w-4 h-4 transition-colors ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-black'}`} />
                                             {item.name}
                                         </Link>
                                     );
                                 })}
-                                <div className="pt-4 mt-4 border-t border-gray-100">
+                                <div className="pt-3 mt-3 border-t border-gray-100">
                                     <button
                                         onClick={() => {
                                             logout();
                                             window.location.href = '/';
                                         }}
-                                        className="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold text-red-600 hover:bg-red-50 hover:shadow-sm transition-all duration-300 group"
+                                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 transition-all duration-200 group"
                                     >
-                                        <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                                        <LogOut className="w-4 h-4 group-hover:scale-110 transition-transform" />
                                         Çıkış Yap
                                     </button>
                                 </div>

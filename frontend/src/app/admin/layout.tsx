@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, ShoppingBag, Users, PlusCircle, LogOut, Settings, Tag, Bell } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Users, PlusCircle, LogOut, Settings, Tag, Bell, Megaphone } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 
 export default function AdminLayout({
@@ -33,6 +33,7 @@ export default function AdminLayout({
     { name: 'Ürün Yönetimi', href: '/admin/products', icon: ShoppingBag },
     { name: 'Ürün Ekle', href: '/admin/products/add', icon: PlusCircle },
     { name: 'Kuponlar', href: '/admin/coupons', icon: Tag },
+    { name: 'Reklam Panoları', href: '/admin/banners', icon: Megaphone },
     { name: 'Bildirimler', href: '/admin/notifications', icon: Bell },
     { name: 'Kullanıcılar', href: '/admin/users', icon: Users },
     { name: 'Ayarlar', href: '/admin/settings', icon: Settings },

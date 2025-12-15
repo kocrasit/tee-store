@@ -26,6 +26,9 @@ export interface IDesign extends Document {
     createdAt: Date;
   }[];
   commissionRate?: number;
+  isNewSeason?: boolean;
+  isBestSeller?: boolean;
+  isSale?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -66,6 +69,11 @@ const DesignSchema: Schema = new Schema(
       },
     ],
     commissionRate: { type: Number }, // Specific override if needed
+
+    // Collection Tags
+    isNewSeason: { type: Boolean, default: false },
+    isBestSeller: { type: Boolean, default: false },
+    isSale: { type: Boolean, default: false },
   },
   {
     timestamps: true,

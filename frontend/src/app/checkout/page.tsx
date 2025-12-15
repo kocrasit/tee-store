@@ -166,17 +166,23 @@ export default function CheckoutPage() {
     if (items.length === 0) return null;
 
     return (
-        <div className="min-h-screen bg-gray-50 py-12 relative">
+        <div className="min-h-screen bg-black py-12 relative">
+            {/* Background Effects */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-blue-900/5 rounded-full blur-[150px]" />
+                <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-purple-900/5 rounded-full blur-[150px]" />
+            </div>
+
             {/* OTP Modal */}
             {showOtpModal && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-in fade-in zoom-in duration-300">
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+                    <div className="glass-dark rounded-3xl shadow-2xl max-w-md w-full p-8 animate-in fade-in zoom-in duration-300 border border-white/10">
                         <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <ShieldCheck className="h-8 w-8 text-indigo-600" />
+                            <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 ring-1 ring-white/10">
+                                <ShieldCheck className="h-8 w-8 text-white/90" />
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-2">Doğrulama Kodu</h3>
-                            <p className="text-gray-500 text-sm">
+                            <h3 className="text-2xl font-bold text-white mb-2">Doğrulama Kodu</h3>
+                            <p className="text-gray-400 text-sm">
                                 Lütfen <strong>{address.phone}</strong> numaralı telefonunuza gönderilen 6 haneli kodu giriniz.
                             </p>
                         </div>
@@ -191,19 +197,19 @@ export default function CheckoutPage() {
                                     value={digit}
                                     onChange={(e) => handleOtpChange(index, e.target.value)}
                                     onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                                    className="w-12 h-14 text-center text-2xl font-bold border-2 border-gray-200 rounded-xl focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none transition-all"
+                                    className="w-12 h-14 text-center text-2xl font-bold bg-black/40 border border-white/20 rounded-xl focus:border-white focus:ring-2 focus:ring-white/20 outline-none transition-all text-white"
                                 />
                             ))}
                         </div>
 
                         <div className="text-center mb-8 text-sm font-medium text-gray-500">
-                            Kalan Süre: <span className="text-indigo-600">{formatTime(timeLeft)}</span>
+                            Kalan Süre: <span className="text-white font-bold">{formatTime(timeLeft)}</span>
                         </div>
 
                         <button
                             onClick={verifyOtp}
                             disabled={loading || otpCode.some(d => !d)}
-                            className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-indigo-200"
+                            className="w-full bg-white text-black py-4 rounded-xl font-bold text-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-white/5"
                         >
                             {loading ? (
                                 <span className="flex items-center justify-center gap-2">
@@ -215,7 +221,7 @@ export default function CheckoutPage() {
 
                         <button
                             onClick={() => setShowOtpModal(false)}
-                            className="w-full mt-4 text-gray-500 hover:text-gray-700 font-medium text-sm"
+                            className="w-full mt-4 text-gray-500 hover:text-white font-medium text-sm transition-colors"
                         >
                             İptal Et
                         </button>
@@ -223,19 +229,21 @@ export default function CheckoutPage() {
                 </div>
             )}
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                        <Lock className="h-8 w-8 text-indigo-600" />
+                    <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+                        <div className="p-2 bg-white/10 rounded-xl ring-1 ring-white/20">
+                            <Lock className="h-6 w-6 text-white" />
+                        </div>
                         Güvenli Ödeme
                     </h1>
                     <div className="mt-4 flex items-center text-sm font-medium text-gray-500">
-                        <Link href="/cart" className="hover:text-indigo-600 transition-colors">Sepet</Link>
+                        <Link href="/cart" className="hover:text-white transition-colors">Sepet</Link>
                         <ChevronRight className="h-4 w-4 mx-2" />
-                        <span className={step === 1 ? 'text-indigo-600' : ''}>Teslimat</span>
+                        <span className={step === 1 ? 'text-white font-bold' : ''}>Teslimat</span>
                         <ChevronRight className="h-4 w-4 mx-2" />
-                        <span className={step === 2 ? 'text-indigo-600' : ''}>Ödeme</span>
+                        <span className={step === 2 ? 'text-white font-bold' : ''}>Ödeme</span>
                     </div>
                 </div>
 
@@ -243,27 +251,27 @@ export default function CheckoutPage() {
                     {/* Left Column: Forms */}
                     <div className="lg:col-span-7">
                         {step === 1 ? (
-                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-                                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                    <MapPin className="h-5 w-5 text-indigo-600" />
+                            <div className="glass-dark rounded-3xl shadow-sm border border-white/10 p-6 sm:p-8">
+                                <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                    <MapPin className="h-5 w-5 text-gray-400" />
                                     Teslimat Adresi
                                 </h2>
                                 <form onSubmit={handleAddressSubmit} className="space-y-6">
                                     <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                                         <div className="sm:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Ad Soyad</label>
+                                            <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">Ad Soyad</label>
                                             <input
                                                 type="text"
                                                 name="fullName"
                                                 required
                                                 value={address.fullName}
                                                 onChange={(e) => handleInputChange(e, 'address')}
-                                                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2.5 border"
+                                                className="block w-full bg-black/40 border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-white/20 focus:border-white/30 sm:text-sm p-3 border transition-colors"
                                             />
                                         </div>
 
                                         <div className="sm:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Telefon</label>
+                                            <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">Telefon</label>
                                             <input
                                                 type="tel"
                                                 name="phone"
@@ -271,12 +279,12 @@ export default function CheckoutPage() {
                                                 placeholder="05XX XXX XX XX"
                                                 value={address.phone}
                                                 onChange={(e) => handleInputChange(e, 'address')}
-                                                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2.5 border"
+                                                className="block w-full bg-black/40 border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-white/20 focus:border-white/30 sm:text-sm p-3 border transition-colors"
                                             />
                                         </div>
 
                                         <div className="sm:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Adres</label>
+                                            <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">Adres</label>
                                             <input
                                                 type="text"
                                                 name="addressLine"
@@ -284,38 +292,38 @@ export default function CheckoutPage() {
                                                 placeholder="Mahalle, Sokak, No, Daire..."
                                                 value={address.addressLine}
                                                 onChange={(e) => handleInputChange(e, 'address')}
-                                                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2.5 border"
+                                                className="block w-full bg-black/40 border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-white/20 focus:border-white/30 sm:text-sm p-3 border transition-colors"
                                             />
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Şehir</label>
+                                            <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">Şehir</label>
                                             <input
                                                 type="text"
                                                 name="city"
                                                 required
                                                 value={address.city}
                                                 onChange={(e) => handleInputChange(e, 'address')}
-                                                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2.5 border"
+                                                className="block w-full bg-black/40 border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-white/20 focus:border-white/30 sm:text-sm p-3 border transition-colors"
                                             />
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Posta Kodu</label>
+                                            <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">Posta Kodu</label>
                                             <input
                                                 type="text"
                                                 name="zipCode"
                                                 required
                                                 value={address.zipCode}
                                                 onChange={(e) => handleInputChange(e, 'address')}
-                                                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2.5 border"
+                                                className="block w-full bg-black/40 border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-white/20 focus:border-white/30 sm:text-sm p-3 border transition-colors"
                                             />
                                         </div>
                                     </div>
 
                                     <button
                                         type="submit"
-                                        className="w-full bg-indigo-600 border border-transparent rounded-xl shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center transition-colors"
+                                        className="w-full bg-white text-black border border-transparent rounded-xl shadow-lg shadow-white/5 py-4 px-4 text-base font-bold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center transition-all hover:scale-[1.02]"
                                     >
                                         Ödeme Adımına Geç
                                         <ChevronRight className="ml-2 h-5 w-5" />
@@ -323,45 +331,45 @@ export default function CheckoutPage() {
                                 </form>
                             </div>
                         ) : (
-                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                            <div className="glass-dark rounded-3xl shadow-sm border border-white/10 p-6 sm:p-8">
                                 <div className="flex items-center justify-between mb-6">
-                                    <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                                        <CreditCard className="h-5 w-5 text-indigo-600" />
+                                    <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                                        <CreditCard className="h-5 w-5 text-gray-400" />
                                         Kart Bilgileri
                                     </h2>
                                     <button
                                         onClick={() => setStep(1)}
-                                        className="text-sm text-indigo-600 hover:text-indigo-500 font-medium"
+                                        className="text-sm text-gray-400 hover:text-white font-medium underline"
                                     >
                                         Adresi Düzenle
                                     </button>
                                 </div>
 
-                                <div className="mb-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
-                                    <p className="text-sm font-medium text-gray-900">Teslimat Adresi:</p>
-                                    <p className="text-sm text-gray-600 mt-1">
+                                <div className="mb-6 bg-white/5 p-4 rounded-xl border border-white/10">
+                                    <p className="text-sm font-bold text-white mb-2">Teslimat Adresi:</p>
+                                    <p className="text-sm text-gray-400 leading-relaxed">
                                         {address.fullName}<br />
                                         {address.addressLine}<br />
                                         {address.zipCode} {address.city} / {address.country}<br />
-                                        {address.phone}
+                                        <span className="text-gray-500">{address.phone}</span>
                                     </p>
                                 </div>
 
                                 <form onSubmit={handlePaymentSubmit} className="space-y-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Kart Üzerindeki İsim</label>
+                                        <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">Kart Üzerindeki İsim</label>
                                         <input
                                             type="text"
                                             name="cardName"
                                             required
                                             value={payment.cardName}
                                             onChange={(e) => handleInputChange(e, 'payment')}
-                                            className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2.5 border"
+                                            className="block w-full bg-black/40 border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-white/20 focus:border-white/30 sm:text-sm p-3 border transition-colors"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Kart Numarası</label>
+                                        <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">Kart Numarası</label>
                                         <div className="relative">
                                             <input
                                                 type="text"
@@ -370,17 +378,17 @@ export default function CheckoutPage() {
                                                 placeholder="0000 0000 0000 0000"
                                                 value={payment.cardNumber}
                                                 onChange={(e) => handleInputChange(e, 'payment')}
-                                                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2.5 pl-10 border"
+                                                className="block w-full bg-black/40 border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-white/20 focus:border-white/30 sm:text-sm p-3 pl-10 border transition-colors"
                                             />
                                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <CreditCard className="h-4 w-4 text-gray-400" />
+                                                <CreditCard className="h-4 w-4 text-gray-500" />
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Son Kullanma Tarihi</label>
+                                            <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">Son Kullanma Tarihi</label>
                                             <input
                                                 type="text"
                                                 name="expiry"
@@ -388,11 +396,11 @@ export default function CheckoutPage() {
                                                 placeholder="MM/YY"
                                                 value={payment.expiry}
                                                 onChange={(e) => handleInputChange(e, 'payment')}
-                                                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2.5 border"
+                                                className="block w-full bg-black/40 border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-white/20 focus:border-white/30 sm:text-sm p-3 border transition-colors"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">CVC</label>
+                                            <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">CVC</label>
                                             <div className="relative">
                                                 <input
                                                     type="text"
@@ -401,10 +409,10 @@ export default function CheckoutPage() {
                                                     placeholder="123"
                                                     value={payment.cvc}
                                                     onChange={(e) => handleInputChange(e, 'payment')}
-                                                    className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2.5 pl-10 border"
+                                                    className="block w-full bg-black/40 border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-white/20 focus:border-white/30 sm:text-sm p-3 pl-10 border transition-colors"
                                                 />
                                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                    <Lock className="h-4 w-4 text-gray-400" />
+                                                    <Lock className="h-4 w-4 text-gray-500" />
                                                 </div>
                                             </div>
                                         </div>
@@ -413,11 +421,11 @@ export default function CheckoutPage() {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 border border-transparent rounded-xl shadow-lg py-4 px-4 text-lg font-bold text-white hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center transform transition hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="w-full bg-white text-black border border-transparent rounded-xl shadow-lg shadow-white/5 py-4 px-4 text-lg font-bold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center transform transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {loading ? (
                                             <>
-                                                <Loader2 className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" />
+                                                <Loader2 className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" />
                                                 İşleniyor...
                                             </>
                                         ) : (
@@ -439,14 +447,14 @@ export default function CheckoutPage() {
 
                     {/* Right Column: Order Summary */}
                     <div className="lg:col-span-5 mt-8 lg:mt-0">
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
-                            <h3 className="text-lg font-bold text-gray-900 mb-4">Sipariş Özeti</h3>
+                        <div className="glass-dark rounded-3xl shadow-sm border border-white/10 p-6 sticky top-24">
+                            <h3 className="text-lg font-bold text-white mb-6">Sipariş Özeti</h3>
 
                             <div className="flow-root">
-                                <ul role="list" className="-my-4 divide-y divide-gray-100">
+                                <ul role="list" className="-my-4 divide-y divide-white/5">
                                     {items.map((item) => (
                                         <li key={`${item.id}-${item.size}-${item.color}`} className="flex py-4">
-                                            <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                            <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border border-white/10 bg-white/5">
                                                 <img
                                                     src={item.image}
                                                     alt={item.title}
@@ -456,14 +464,14 @@ export default function CheckoutPage() {
 
                                             <div className="ml-4 flex flex-1 flex-col">
                                                 <div>
-                                                    <div className="flex justify-between text-base font-medium text-gray-900">
+                                                    <div className="flex justify-between text-base font-bold text-white">
                                                         <h3 className="line-clamp-1 mr-2">{item.title}</h3>
                                                         <p className="ml-4">₺{item.price.toFixed(2)}</p>
                                                     </div>
-                                                    <p className="mt-1 text-sm text-gray-500">{item.color} - {item.size}</p>
+                                                    <p className="mt-1 text-sm text-gray-400">{item.color} - {item.size}</p>
                                                 </div>
                                                 <div className="flex flex-1 items-end justify-between text-sm">
-                                                    <p className="text-gray-500">Adet: {item.quantity}</p>
+                                                    <p className="text-gray-500 font-medium">Adet: {item.quantity}</p>
                                                 </div>
                                             </div>
                                         </li>
@@ -471,28 +479,28 @@ export default function CheckoutPage() {
                                 </ul>
                             </div>
 
-                            <dl className="mt-6 space-y-4 border-t border-gray-100 pt-6">
+                            <dl className="mt-6 space-y-4 border-t border-white/10 pt-6">
                                 <div className="flex items-center justify-between">
-                                    <dt className="text-sm text-gray-600">Ara Toplam</dt>
-                                    <dd className="text-sm font-medium text-gray-900">₺{subtotal.toFixed(2)}</dd>
+                                    <dt className="text-sm text-gray-400 font-medium">Ara Toplam</dt>
+                                    <dd className="text-sm font-bold text-white">₺{subtotal.toFixed(2)}</dd>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <dt className="text-sm text-gray-600">Kargo</dt>
-                                    <dd className="text-sm font-medium text-gray-900">
-                                        {shipping === 0 ? <span className="text-green-600">Ücretsiz</span> : `₺${shipping.toFixed(2)}`}
+                                    <dt className="text-sm text-gray-400 font-medium">Kargo</dt>
+                                    <dd className="text-sm font-bold text-white">
+                                        {shipping === 0 ? <span className="text-green-400">Ücretsiz</span> : `₺${shipping.toFixed(2)}`}
                                     </dd>
                                 </div>
-                                <div className="flex items-center justify-between border-t border-gray-100 pt-4">
-                                    <dt className="text-base font-bold text-gray-900">Toplam</dt>
-                                    <dd className="text-xl font-bold text-indigo-600">₺{total.toFixed(2)}</dd>
+                                <div className="flex items-center justify-between border-t border-white/10 pt-4">
+                                    <dt className="text-base font-bold text-white">Toplam</dt>
+                                    <dd className="text-xl font-bold text-white">₺{total.toFixed(2)}</dd>
                                 </div>
                             </dl>
 
-                            <div className="mt-6 bg-indigo-50 rounded-xl p-4 flex items-start gap-3">
-                                <Truck className="h-5 w-5 text-indigo-600 flex-shrink-0 mt-0.5" />
+                            <div className="mt-6 bg-white/5 rounded-xl p-4 flex items-start gap-3 border border-white/10">
+                                <Truck className="h-5 w-5 text-gray-400 flex-shrink-0 mt-0.5" />
                                 <div>
-                                    <p className="text-sm font-medium text-indigo-900">Ücretsiz Kargo</p>
-                                    <p className="text-xs text-indigo-700 mt-0.5">500 TL üzeri alışverişlerde kargo bedava.</p>
+                                    <p className="text-sm font-bold text-white">Ücretsiz Kargo</p>
+                                    <p className="text-xs text-gray-400 mt-0.5">500 TL üzeri alışverişlerde kargo bedava.</p>
                                 </div>
                             </div>
                         </div>

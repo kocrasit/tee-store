@@ -85,6 +85,49 @@
       0 0 20px rgba(168, 85, 247, 0.3);
   }
 
+  /* New Theme Utilities */
+  .bg-anthracite {
+    @apply bg-[#28282B];
+  }
+
+  .glass-anthracite {
+    @apply bg-[#28282B]/60 backdrop-blur-md border border-white/5;
+  }
+
+  /* Accents */
+  .border-gold {
+    @apply border-[#D4AF37]/30;
+  }
+
+  .text-gold {
+    @apply text-[#D4AF37];
+  }
+
+  .bg-gold-soft {
+    @apply bg-[#D4AF37]/10;
+  }
+
+  .border-blue-gray {
+    @apply border-[#94A3B8]/30;
+  }
+
+  .text-blue-gray {
+    @apply text-[#94A3B8];
+  }
+
+  .bg-blue-gray-soft {
+    @apply bg-[#94A3B8]/10;
+  }
+
+  /* Glows */
+  .gold-glow {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+  }
+
+  .blue-gray-glow {
+    box-shadow: 0 0 20px rgba(148, 163, 184, 0.15);
+  }
+
   /* Smooth transitions */
   .transition-smooth {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

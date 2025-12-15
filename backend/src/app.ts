@@ -15,6 +15,7 @@ import couponRoutes from './routes/couponRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import orderRoutes from './routes/orderRoutes';
 import userRoutes from './routes/userRoutes';
+import bannerRoutes from './routes/bannerRoutes';
 
 const app: Application = express();
 
@@ -42,6 +43,7 @@ app.use('/api/coupons', couponRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/banners', bannerRoutes);
 
 app.get('/', (req, res) => {
   sendSuccess(res, { data: { message: 'API is running...' } });

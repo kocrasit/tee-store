@@ -24,6 +24,7 @@ const getDesigns = asyncHandler(async (req: Request, res: Response) => {
   const result = await listDesigns({
     pageNumber: (req.query as any).pageNumber,
     keyword: (req.query as any).keyword,
+    filter: (req.query as any).filter,
   });
   sendSuccess(res, { data: result });
 });

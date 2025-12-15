@@ -38,6 +38,10 @@ export default function AddProduct() {
                 tagsArray.forEach((tag: string) => formData.append('tags[]', tag));
             }
 
+            formData.append('isNewSeason', String(data.isNewSeason || false));
+            formData.append('isBestSeller', String(data.isBestSeller || false));
+            formData.append('isSale', String(data.isSale || false));
+
             const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
             if (fileInput && fileInput.files && fileInput.files[0]) {
                 formData.append('image', fileInput.files[0]);
@@ -136,6 +140,34 @@ export default function AddProduct() {
                                 placeholder="yaz, modern, siyah"
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
+                        </div>
+
+                        {/* Collection Tags */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t">
+                            <label className="flex items-center space-x-3 cursor-pointer">
+                                <input
+                                    {...register('isNewSeason')}
+                                    type="checkbox"
+                                    className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
+                                />
+                                <span className="text-sm font-medium text-gray-700">Yeni Sezon</span>
+                            </label>
+                            <label className="flex items-center space-x-3 cursor-pointer">
+                                <input
+                                    {...register('isBestSeller')}
+                                    type="checkbox"
+                                    className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
+                                />
+                                <span className="text-sm font-medium text-gray-700">Çok Satanlar</span>
+                            </label>
+                            <label className="flex items-center space-x-3 cursor-pointer">
+                                <input
+                                    {...register('isSale')}
+                                    type="checkbox"
+                                    className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
+                                />
+                                <span className="text-sm font-medium text-gray-700">İndirim</span>
+                            </label>
                         </div>
 
                         <button

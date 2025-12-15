@@ -2,18 +2,26 @@ import Design from '../models/Design';
 import { IUser, UserRole } from '../models/User';
 import { ApiError } from '../utils/ApiError';
 
-export async function listDesigns(input: { pageNumber?: number; keyword?: string }) {
+export async function listDesigns(input: { pageNumber?: number; keyword?: string; filter?: string }) {
   const pageSize = 10;
   const page = input.pageNumber || 1;
 
-  const keyword = input.keyword
-    ? {
-        title: { $regex: input.keyword, $options: 'i' },
-      }
-    : {};
+  let query: any = { status: 'published' };
 
-  const count = await Design.countDocuments({ ...keyword, status: 'published' } as any);
-  const designs = await Design.find({ ...keyword, status: 'published' } as any)
+  if (input.keyword) {
+    query.title = { $regex: input.keyword, $options: 'i' };
+  }
+
+  if (input.filter) {
+    if (input.filter === 'new') query.isNewSeason = true;
+    if (input.filter === 'best') query.isBestSeller = true;
+    if (input.filter === 'sale') query.isSale = true;
+  }
+
+  console.log('List Designs Query:', JSON.stringify(query, null, 2));
+
+  const count = await Design.countDocuments(query);
+  const designs = await Design.find(query)
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
@@ -34,7 +42,7 @@ export async function createDesign(input: {
   body: any;
   file?: Express.Multer.File;
 }) {
-  const { title, description, price, category, tags, stock } = input.body;
+  const { title, description, price, category, tags, stock, isNewSeason, isBestSeller, isSale } = input.body;
 
   let imagePath = 'placeholder.jpg';
   if (input.file) {
@@ -56,6 +64,9 @@ export async function createDesign(input: {
     userRole: input.user.role === UserRole.INFLUENCER ? 'influencer' : 'designer',
     status: 'published',
     stock: Number(stock) || 0,
+    isNewSeason: input.user.role === 'admin' ? (isNewSeason || false) : false,
+    isBestSeller: input.user.role === 'admin' ? (isBestSeller || false) : false,
+    isSale: input.user.role === 'admin' ? (isSale || false) : false,
   });
 
   return await design.save();
@@ -91,7 +102,20 @@ export async function updateDesign(input: { id: string; body: any; user: IUser }
   if (input.body.price !== undefined) design.price = input.body.price;
   if (input.body.category !== undefined) design.category = input.body.category;
   if (input.body.stock !== undefined) design.stock = input.body.stock;
-  if (isAdmin && input.body.status) design.status = input.body.status;
+
+  console.log('Update Design Request:', {
+    id: input.id,
+    role: input.user.role,
+    body: input.body,
+    isAdmin
+  });
+
+  if (isAdmin) {
+    if (input.body.status) design.status = input.body.status;
+    if (input.body.isNewSeason !== undefined) design.isNewSeason = input.body.isNewSeason;
+    if (input.body.isBestSeller !== undefined) design.isBestSeller = input.body.isBestSeller;
+    if (input.body.isSale !== undefined) design.isSale = input.body.isSale;
+  }
 
   return await design.save();
 }

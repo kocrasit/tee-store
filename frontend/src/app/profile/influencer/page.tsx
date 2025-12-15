@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
-import Navbar from '@/components/Navbar';
 import { useQuery } from '@tanstack/react-query';
 import api from '@/api/axios';
 import { Palette, DollarSign, TrendingUp, Upload, Image as ImageIcon, Loader2 } from 'lucide-react';
@@ -42,158 +41,155 @@ export default function InfluencerProfile() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-                {/* Stats Overview */}
-                {isLoading ? (
-                    <div className="flex justify-center p-12">
-                        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 mb-8">
-                        <div className="bg-white overflow-hidden shadow rounded-lg">
-                            <div className="p-5">
-                                <div className="flex items-center">
-                                    <div className="flex-shrink-0">
-                                        <DollarSign className="h-6 w-6 text-gray-400" />
-                                    </div>
-                                    <div className="ml-5 w-0 flex-1">
-                                        <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Toplam Kazanç</dt>
-                                            <dd className="text-lg font-medium text-gray-900">₺{stats?.totalEarnings?.toFixed(2) || '0.00'}</dd>
-                                        </dl>
-                                    </div>
+        <div className="space-y-8">
+            {/* Stats Overview */}
+            {isLoading ? (
+                <div className="flex justify-center p-12">
+                    <Loader2 className="h-8 w-8 animate-spin text-black" />
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                    <div className="bg-white overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                        <div className="p-6">
+                            <div className="flex items-center">
+                                <div className="flex-shrink-0 p-3 bg-green-50 rounded-lg">
+                                    <DollarSign className="h-6 w-6 text-green-600" />
                                 </div>
-                            </div>
-                        </div>
-                        <div className="bg-white overflow-hidden shadow rounded-lg">
-                            <div className="p-5">
-                                <div className="flex items-center">
-                                    <div className="flex-shrink-0">
-                                        <Palette className="h-6 w-6 text-gray-400" />
-                                    </div>
-                                    <div className="ml-5 w-0 flex-1">
-                                        <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Toplam Tasarım</dt>
-                                            <dd className="text-lg font-medium text-gray-900">{stats?.totalDesigns || 0}</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="bg-white overflow-hidden shadow rounded-lg">
-                            <div className="p-5">
-                                <div className="flex items-center">
-                                    <div className="flex-shrink-0">
-                                        <TrendingUp className="h-6 w-6 text-gray-400" />
-                                    </div>
-                                    <div className="ml-5 w-0 flex-1">
-                                        <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Toplam Satış Adedi</dt>
-                                            <dd className="text-lg font-medium text-gray-900">{stats?.totalSales || 0}</dd>
-                                        </dl>
-                                    </div>
+                                <div className="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt className="text-xs font-bold text-gray-500 truncate uppercase tracking-wider">Toplam Kazanç</dt>
+                                        <dd className="text-2xl font-bold text-gray-900 mt-1">₺{stats?.totalEarnings?.toFixed(2) || '0.00'}</dd>
+                                    </dl>
                                 </div>
                             </div>
                         </div>
                     </div>
-                )}
-
-                <div className="bg-white shadow rounded-lg overflow-hidden">
-                    <div className="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between items-center">
-                        <div>
-                            <h3 className="text-lg leading-6 font-medium text-gray-900">Tasarımlarım</h3>
-                            <p className="mt-1 text-sm text-gray-500">Yüklediğin tasarımlar ve durumları.</p>
+                    <div className="bg-white overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                        <div className="p-6">
+                            <div className="flex items-center">
+                                <div className="flex-shrink-0 p-3 bg-purple-50 rounded-lg">
+                                    <Palette className="h-6 w-6 text-purple-600" />
+                                </div>
+                                <div className="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt className="text-xs font-bold text-gray-500 truncate uppercase tracking-wider">Toplam Tasarım</dt>
+                                        <dd className="text-2xl font-bold text-gray-900 mt-1">{stats?.totalDesigns || 0}</dd>
+                                    </dl>
+                                </div>
+                            </div>
                         </div>
-                        <a href="/influencer/design/add" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <Upload className="mr-2 h-5 w-5" />
-                            Yeni Tasarım Yükle
-                        </a>
                     </div>
+                    <div className="bg-white overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                        <div className="p-6">
+                            <div className="flex items-center">
+                                <div className="flex-shrink-0 p-3 bg-blue-50 rounded-lg">
+                                    <TrendingUp className="h-6 w-6 text-blue-600" />
+                                </div>
+                                <div className="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt className="text-xs font-bold text-gray-500 truncate uppercase tracking-wider">Toplam Satış</dt>
+                                        <dd className="text-2xl font-bold text-gray-900 mt-1">{stats?.totalSales || 0}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+            <div className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                    <div>
+                        <h3 className="text-lg font-bold text-gray-900">Tasarımlarım</h3>
+                        <p className="mt-1 text-sm text-gray-500">Yüklediğin tasarımlar ve durumları.</p>
+                    </div>
+                    <a href="/influencer/design/add" className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-black rounded-lg hover:bg-gray-800 transition-all duration-200 shadow-sm">
+                        <Upload className="mr-2 h-4 w-4" />
+                        Yeni Tasarım
+                    </a>
+                </div>
+
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Görsel
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Başlık
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Fiyat
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Satış
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Durum
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-100">
+                            {designsLoading ? (
                                 <tr>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Görsel
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Başlık
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Fiyat
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Satış
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Durum
-                                    </th>
+                                    <td colSpan={5} className="px-6 py-12 text-center text-sm text-gray-500">
+                                        <Loader2 className="mx-auto h-6 w-6 animate-spin text-black mb-2" />
+                                        Yükleniyor...
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {designsLoading ? (
-                                    <tr>
-                                        <td colSpan={5} className="px-6 py-4 text-center text-sm text-gray-500">
-                                            <Loader2 className="mx-auto h-6 w-6 animate-spin text-indigo-600" />
-                                            Yükleniyor...
-                                        </td>
-                                    </tr>
-                                ) : (
-                                    <>
-                                        {designs?.map((design: any) => (
-                                            <tr key={design._id}>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="flex-shrink-0 h-10 w-10">
-                                                        <img className="h-10 w-10 rounded-full object-cover" src={design.images.thumbnail || design.images.original} alt="" />
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm font-medium text-gray-900">{design.title}</div>
-                                                    <div className="text-sm text-gray-500">{design.category}</div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">₺{design.price}</div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">{design.sales}</div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${design.status === 'published' ? 'bg-green-100 text-green-800' :
-                                                        design.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
-                                                            'bg-red-100 text-red-800'
-                                                        }`}>
-                                                        {design.status === 'published' ? 'Yayında' : design.status === 'draft' ? 'Taslak' : 'Reddedildi'}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        {(!designs || designs.length === 0) && (
-                                            <tr>
-                                                <td colSpan={5} className="px-6 py-12 text-center">
-                                                    <div className="mx-auto h-24 w-24 bg-indigo-50 rounded-full flex items-center justify-center mb-4">
-                                                        <ImageIcon className="h-12 w-12 text-indigo-600" />
-                                                    </div>
-                                                    <h3 className="text-lg font-medium text-gray-900">Henüz Tasarım Yüklemediniz</h3>
-                                                    <p className="mt-2 text-sm text-gray-500 max-w-sm mx-auto">
-                                                        İlk tasarımınızı yükleyerek satış yapmaya başlayın. Tasarımlarınız onaylandıktan sonra mağazada listelenecektir.
-                                                    </p>
-                                                    <div className="mt-6">
-                                                        <a href="/influencer/design/add" className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                            <Upload className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-                                                            İlk Tasarımı Yükle
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                            ) : (
+                                <>
+                                    {designs?.map((design: any) => (
+                                        <tr key={design._id} className="hover:bg-gray-50 transition-colors">
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="flex-shrink-0 h-10 w-10">
+                                                    <img className="h-10 w-10 rounded-lg object-cover border border-gray-200" src={design.images?.thumbnail || design.images?.preview || ''} alt="" />
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="text-sm font-bold text-gray-900">{design.title}</div>
+                                                <div className="text-xs text-gray-500">{design.category}</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="text-sm font-medium text-gray-900">₺{design.price}</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="text-sm text-gray-600">{design.sales || 0}</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <span className={`px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-full border ${design.status === 'published' ? 'bg-green-50 text-green-700 border-green-200' :
+                                                    design.status === 'draft' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
+                                                        'bg-red-50 text-red-700 border-red-200'
+                                                    }`}>
+                                                    {design.status === 'published' ? 'Yayında' : design.status === 'draft' ? 'Taslak' : 'Reddedildi'}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    {(!designs || designs.length === 0) && (
+                                        <tr>
+                                            <td colSpan={5} className="px-6 py-12 text-center">
+                                                <div className="mx-auto h-20 w-20 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-100">
+                                                    <ImageIcon className="h-10 w-10 text-gray-400" />
+                                                </div>
+                                                <h3 className="text-lg font-medium text-gray-900">Henüz Tasarım Yüklemediniz</h3>
+                                                <p className="mt-2 text-sm text-gray-500 max-w-sm mx-auto">
+                                                    İlk tasarımınızı yükleyerek satış yapmaya başlayın.
+                                                </p>
+                                                <div className="mt-6">
+                                                    <a href="/influencer/design/add" className="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-sm font-bold rounded-lg text-gray-700 hover:bg-gray-50 transition-all">
+                                                        <Upload className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                                                        İlk Tasarımı Yükle
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )}
+                                </>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

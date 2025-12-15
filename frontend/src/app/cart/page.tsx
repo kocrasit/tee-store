@@ -72,15 +72,21 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="max-w-2xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-            <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <ShoppingBag className="h-8 w-8 text-indigo-600" />
+      <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-900/10 rounded-full blur-[120px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/10 rounded-full blur-[120px]" />
+        </div>
+
+        <div className="max-w-2xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center relative z-10">
+          <div className="glass-dark rounded-3xl shadow-2xl p-12 border border-white/10">
+            <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-white/10 shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+              <ShoppingBag className="h-10 w-10 text-white/80" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Sepetiniz Boş</h2>
-            <p className="text-gray-500 text-sm mb-6 max-w-md mx-auto">Henüz sepetinize hiç ürün eklemediniz. En yeni tasarımlarımızı keşfetmeye ne dersiniz?</p>
-            <Link href="/" className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-md text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transform transition hover:-translate-y-0.5">
+            <h2 className="text-2xl font-bold text-white mb-3">Sepetiniz Boş</h2>
+            <p className="text-gray-400 text-sm mb-8 max-w-md mx-auto">Henüz sepetinize hiç ürün eklemediniz. Özel koleksiyonumuzu keşfetmeye ne dersiniz?</p>
+            <Link href="/" className="inline-flex items-center px-8 py-3.5 border border-white/20 text-sm font-bold rounded-xl shadow-lg shadow-white/5 text-black bg-white hover:bg-gray-200 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-white/10">
               Alışverişe Başla
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
@@ -91,12 +97,20 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24 pt-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <ShoppingBag className="h-6 w-6 text-indigo-600" />
+    <div className="min-h-screen bg-black pb-24 pt-12 relative">
+      {/* Background Effects */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-blue-900/5 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-purple-900/5 rounded-full blur-[150px]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <h1 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
+          <div className="p-2 bg-white/10 rounded-xl ring-1 ring-white/20">
+            <ShoppingBag className="h-6 w-6 text-white" />
+          </div>
           Alışveriş Sepeti
-          <span className="text-sm font-medium text-gray-500 ml-2 mt-1">({items.length} Ürün)</span>
+          <span className="text-sm font-medium text-gray-400 ml-2 mt-1 px-3 py-1 bg-white/5 rounded-full border border-white/10">{items.length} Ürün</span>
         </h1>
 
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
@@ -104,43 +118,43 @@ export default function CartPage() {
           <section className="lg:col-span-7">
             <div className="space-y-4">
               {items.map((item) => (
-                <div key={`${item.id}-${item.size}-${item.color}`} className="group bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
+                <div key={`${item.id}-${item.size}-${item.color}`} className="group glass-dark rounded-2xl p-4 border border-white/5 hover:border-white/20 transition-all duration-300 flex items-center gap-5">
                   {/* Image */}
-                  <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 group-hover:border-indigo-200 transition-colors">
+                  <div className="flex-shrink-0 w-24 h-24 bg-white/5 rounded-xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-colors relative">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-full object-center object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-center object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-start mb-2">
                       <div>
-                        <h3 className="text-base font-bold text-gray-900 truncate pr-4">
-                          <Link href={`/design/${item.id}`} className="hover:text-indigo-600 transition-colors">
+                        <h3 className="text-lg font-bold text-white truncate pr-4">
+                          <Link href={`/design/${item.id}`} className="hover:text-gray-300 transition-colors">
                             {item.title}
                           </Link>
                         </h3>
-                        <div className="mt-1 flex items-center gap-2">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-gray-50 text-gray-600 border border-gray-200">
+                        <div className="mt-1.5 flex items-center gap-2">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-white/5 text-gray-300 border border-white/10 uppercase tracking-wider">
                             {item.size}
                           </span>
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-gray-50 text-gray-600 border border-gray-200">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-white/5 text-gray-300 border border-white/10 uppercase tracking-wider">
                             {item.color}
                           </span>
                         </div>
                       </div>
-                      <p className="text-base font-bold text-indigo-600">₺{item.price.toFixed(2)}</p>
+                      <p className="text-lg font-bold text-white">₺{item.price.toFixed(2)}</p>
                     </div>
 
-                    <div className="mt-3 flex items-center justify-between">
+                    <div className="mt-4 flex items-center justify-between">
                       {/* Quantity Control */}
-                      <div className="flex items-center bg-gray-50 rounded-md border border-gray-200 p-0.5">
+                      <div className="flex items-center bg-black/40 rounded-lg border border-white/10 p-1">
                         <button
                           onClick={() => updateQuantity(item.id, item.size, item.color, item.quantity - 1)}
-                          className="w-6 h-6 flex items-center justify-center rounded text-gray-500 hover:bg-white hover:shadow-sm hover:text-indigo-600 transition-all"
+                          className="w-7 h-7 flex items-center justify-center rounded-md text-gray-400 hover:bg-white/10 hover:text-white transition-all"
                         >
                           -
                         </button>
@@ -148,11 +162,11 @@ export default function CartPage() {
                           type="text"
                           value={item.quantity}
                           readOnly
-                          className="w-8 text-center bg-transparent border-none focus:ring-0 p-0 text-xs font-semibold text-gray-900"
+                          className="w-10 text-center bg-transparent border-none focus:ring-0 p-0 text-sm font-bold text-white"
                         />
                         <button
                           onClick={() => updateQuantity(item.id, item.size, item.color, item.quantity + 1)}
-                          className="w-6 h-6 flex items-center justify-center rounded text-gray-500 hover:bg-white hover:shadow-sm hover:text-indigo-600 transition-all"
+                          className="w-7 h-7 flex items-center justify-center rounded-md text-gray-400 hover:bg-white/10 hover:text-white transition-all"
                         >
                           +
                         </button>
@@ -162,7 +176,7 @@ export default function CartPage() {
                       <button
                         type="button"
                         onClick={() => removeItem(item.id, item.size, item.color)}
-                        className="text-xs text-gray-400 hover:text-red-500 font-medium transition-colors flex items-center gap-1 px-2 py-1 rounded hover:bg-red-50"
+                        className="text-xs text-gray-500 hover:text-red-400 font-bold transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-red-900/10 border border-transparent hover:border-red-500/20"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                         <span className="hidden sm:inline">Kaldır</span>
@@ -176,69 +190,74 @@ export default function CartPage() {
 
           {/* Order Summary */}
           <section className="lg:col-span-5 mt-16 lg:mt-0">
-            <div className="bg-white shadow-lg rounded-2xl p-6 border border-gray-100 sticky top-24">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Sipariş Özeti</h2>
+            <div className="glass-dark rounded-3xl p-8 border border-white/10 sticky top-24 shadow-2xl">
+              <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <Ticket className="w-5 h-5 text-gray-400" />
+                Sipariş Özeti
+              </h2>
 
-              <dl className="space-y-3">
-                <div className="flex items-center justify-between pb-3 border-b border-gray-50">
-                  <dt className="text-sm text-gray-600">Ara Toplam</dt>
-                  <dd className="text-sm font-semibold text-gray-900">₺{subtotal.toFixed(2)}</dd>
+              <dl className="space-y-4">
+                <div className="flex items-center justify-between pb-4 border-b border-white/5">
+                  <dt className="text-sm text-gray-400 font-medium">Ara Toplam</dt>
+                  <dd className="text-sm font-bold text-white">₺{subtotal.toFixed(2)}</dd>
                 </div>
-                <div className="flex items-center justify-between pb-3 border-b border-gray-50">
-                  <dt className="flex items-center text-sm text-gray-600">
+                <div className="flex items-center justify-between pb-4 border-b border-white/5">
+                  <dt className="flex items-center text-sm text-gray-400 font-medium">
                     <span>Kargo</span>
                   </dt>
                   <dd className="text-sm font-medium">
-                    {shipping === 0 ? <span className="text-green-600 bg-green-50 px-2 py-0.5 rounded text-xs font-bold">Ücretsiz</span> : `₺${shipping.toFixed(2)}`}
+                    {shipping === 0 ? <span className="text-green-400 bg-green-500/10 px-2.5 py-1 rounded-md text-xs font-bold border border-green-500/20">Ücretsiz</span> : <span className="text-white">₺{shipping.toFixed(2)}</span>}
                   </dd>
                 </div>
 
                 {/* Coupons Section */}
-                <div className="py-3">
-                  <div className="flex gap-2 mb-3">
+                <div className="py-2">
+                  <div className="flex gap-2 mb-4">
                     <div className="relative flex-1">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Ticket className="h-3.5 w-3.5 text-gray-400" />
+                        <Ticket className="h-4 w-4 text-gray-500" />
                       </div>
                       <input
                         type="text"
                         value={couponCode}
                         onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                        placeholder="İndirim Kodu"
-                        className="block w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg text-xs placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-transparent bg-gray-50"
+                        placeholder="İNDİRİM KODU"
+                        className="block w-full pl-10 pr-3 py-2.5 border border-white/10 rounded-xl text-xs font-bold placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent bg-black/40 text-white uppercase tracking-wider transition-all"
                       />
                     </div>
                     <button
                       onClick={handleApplyCoupon}
                       disabled={loading || !couponCode}
-                      className="px-4 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-800 disabled:opacity-50 transition-colors shadow-sm"
+                      className="px-5 py-2.5 bg-white text-black text-xs font-bold rounded-xl hover:bg-gray-200 disabled:opacity-50 transition-all shadow-lg shadow-white/5 hover:scale-105 active:scale-95"
                     >
-                      {loading ? '...' : 'Uygula'}
+                      {loading ? '...' : 'UYGULA'}
                     </button>
                   </div>
 
                   {/* Applied Coupons List */}
                   {appliedCoupons.length > 0 && (
-                    <div className="space-y-2 mb-3">
+                    <div className="space-y-2 mb-4">
                       {appliedCoupons.map((coupon: any, idx) => (
-                        <div key={coupon._id || idx} className="flex justify-between items-center bg-gradient-to-r from-green-50 to-emerald-50 text-green-800 px-3 py-2 rounded-lg border border-green-100 shadow-sm">
-                          <div className="flex items-center gap-2">
-                            <div className="bg-white p-1 rounded-full shadow-sm">
-                              <Ticket className="w-3 h-3 text-green-600" />
+                        <div key={coupon._id || idx} className="flex justify-between items-center bg-gradient-to-r from-green-500/10 to-emerald-500/10 text-green-400 px-4 py-3 rounded-xl border border-green-500/20 shadow-sm relative overflow-hidden group">
+                          {/* Shine effect */}
+                          <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-10 group-hover:animate-shine" />
+                          <div className="flex items-center gap-3 relative z-10">
+                            <div className="bg-green-500/20 p-1.5 rounded-full">
+                              <Ticket className="w-3.5 h-3.5 text-green-400" />
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-bold text-xs tracking-wide">{coupon.code}</span>
-                              <span className="text-[10px] text-green-600 font-medium">
+                              <span className="font-bold text-xs tracking-wider text-white">{coupon.code}</span>
+                              <span className="text-[10px] text-green-400 font-bold uppercase">
                                 {coupon.discountType === 'percentage' ? `%${coupon.discountValue} İndirim` : `₺${coupon.discountValue} İndirim`}
                               </span>
                             </div>
                           </div>
                           <button
                             onClick={() => handleRemoveCoupon(coupon._id)}
-                            className="text-green-600 hover:text-red-600 p-1 hover:bg-white rounded-full transition-all"
+                            className="text-gray-400 hover:text-red-400 p-1.5 hover:bg-red-500/10 rounded-full transition-all relative z-10"
                             title="Kuponu Kaldır"
                           >
-                            <X className="w-3 h-3" />
+                            <X className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       ))}
@@ -247,22 +266,22 @@ export default function CartPage() {
 
                   {/* Available Coupons List */}
                   {user && availableCoupons.length > 0 && (
-                    <div className="mb-3 bg-indigo-50 rounded-lg p-3 border border-indigo-100">
-                      <p className="text-[10px] font-bold text-indigo-900 mb-2 flex items-center gap-1 uppercase tracking-wider">
+                    <div className="mb-4 bg-white/5 rounded-xl p-4 border border-white/10">
+                      <p className="text-[10px] font-bold text-gray-400 mb-3 flex items-center gap-1.5 uppercase tracking-wider">
                         <Ticket className="w-3 h-3" />
                         Sizin İçin Fırsatlar
                       </p>
-                      <div className="space-y-1.5">
+                      <div className="space-y-2">
                         {availableCoupons.map(c => (
-                          <div key={c._id} className="flex items-center justify-between bg-white p-2 rounded border border-indigo-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => setCouponCode(c.code)}>
+                          <div key={c._id} className="flex items-center justify-between bg-black/40 p-3 rounded-lg border border-white/5 hover:border-white/20 transition-all cursor-pointer group" onClick={() => setCouponCode(c.code)}>
                             <div className="flex flex-col">
-                              <span className="font-bold text-xs text-indigo-700">{c.code}</span>
+                              <span className="font-bold text-xs text-white group-hover:text-gray-300 transition-colors">{c.code}</span>
                               <span className="text-[10px] text-gray-500 mt-0.5">
                                 {c.discountType === 'percentage' ? `%${c.discountValue} İndirim` : `₺${c.discountValue} İndirim`}
                               </span>
                             </div>
-                            <span className="text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded font-medium">
-                              Kullan
+                            <span className="text-[10px] bg-white text-black px-2 py-1 rounded font-bold hover:scale-105 transition-transform">
+                              KULLAN
                             </span>
                           </div>
                         ))}
@@ -271,31 +290,31 @@ export default function CartPage() {
                   )}
 
                   {backendDiscount > 0 && (
-                    <div className="flex items-center justify-between text-green-600 font-bold bg-green-50 px-3 py-2 rounded-lg border border-green-100">
+                    <div className="flex items-center justify-between text-green-400 font-bold bg-green-500/10 px-4 py-3 rounded-xl border border-green-500/20 mb-2">
                       <dt className="text-sm">Toplam İndirim</dt>
                       <dd className="text-sm">-₺{backendDiscount.toFixed(2)}</dd>
                     </div>
                   )}
                 </div>
 
-                <div className="flex items-center justify-between border-t border-gray-100 pt-4 mt-2">
-                  <dt className="text-base font-bold text-gray-900">Toplam Tutar</dt>
-                  <dd className="text-xl font-extrabold text-indigo-600">₺{total.toFixed(2)}</dd>
+                <div className="flex items-center justify-between border-t border-white/10 pt-6 mt-2">
+                  <dt className="text-lg font-bold text-white">Toplam Tutar</dt>
+                  <dd className="text-2xl font-bold text-white">₺{total.toFixed(2)}</dd>
                 </div>
               </dl>
 
-              <div className="mt-6">
+              <div className="mt-8">
                 <Link
                   href="/checkout"
-                  className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 border border-transparent rounded-xl shadow-md py-3 px-4 text-base font-bold text-white hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center transform transition hover:-translate-y-0.5 active:scale-[0.98]"
+                  className="w-full bg-white text-black border border-transparent rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.1)] py-4 px-4 text-base font-bold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white flex items-center justify-center transform transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Ödemeyi Tamamla
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </div>
 
-              <div className="mt-4 text-center">
-                <Link href="/" className="text-xs font-medium text-gray-500 hover:text-indigo-600 transition-colors">
+              <div className="mt-6 text-center">
+                <Link href="/" className="text-xs font-bold text-gray-500 hover:text-white transition-colors uppercase tracking-wider">
                   veya alışverişe devam et
                 </Link>
               </div>

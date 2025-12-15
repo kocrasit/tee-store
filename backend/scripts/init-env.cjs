@@ -30,3 +30,4 @@ console.log('[init-env] .env oluşturuldu:', envPath);
 console.log('[init-env] Şimdi .env içindeki MONGO_URI kullanıcı/şifre kısmını doldur.');
 
 
+

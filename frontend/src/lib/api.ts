@@ -1,6 +1,12 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api';
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === 'production'
+    ? (() => {
+        throw new Error('NEXT_PUBLIC_API_URL env değeri production için zorunlu');
+      })()
+    : 'http://127.0.0.1:5000/api');
 
 // Axios instance
 const api = axios.create({
@@ -159,4 +165,5 @@ export const apiPut = <T>(url: string, data?: unknown, config?: Parameters<typeo
 
 export const apiDelete = <T>(url: string, config?: Parameters<typeof api.delete>[1]) =>
   api.delete<T>(url, config).then((res) => res.data);
+
 

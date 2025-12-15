@@ -19,6 +19,7 @@ const zTags = z.preprocess((val) => {
 export const getDesignsQuerySchema = z.object({
   pageNumber: z.coerce.number().int().positive().optional(),
   keyword: z.string().trim().optional(),
+  filter: z.string().trim().optional(),
 });
 
 export const designIdParamsSchema = z.object({
@@ -32,6 +33,9 @@ export const createDesignBodySchema = z.object({
   category: z.enum(['tshirt', 'hoodie', 'sweatshirt', 'mug', 'poster', 'sticker']),
   tags: zTags.optional(),
   stock: z.coerce.number().int().nonnegative().optional(),
+  isNewSeason: z.union([z.boolean(), z.string().transform((val) => val === 'true')]).optional(),
+  isBestSeller: z.union([z.boolean(), z.string().transform((val) => val === 'true')]).optional(),
+  isSale: z.union([z.boolean(), z.string().transform((val) => val === 'true')]).optional(),
 });
 
 export const updateDesignBodySchema = z.object({
@@ -41,6 +45,9 @@ export const updateDesignBodySchema = z.object({
   category: z.enum(['tshirt', 'hoodie', 'sweatshirt', 'mug', 'poster', 'sticker']).optional(),
   stock: z.coerce.number().int().nonnegative().optional(),
   status: z.enum(['draft', 'published', 'rejected', 'archived']).optional(),
+  isNewSeason: z.boolean().optional(),
+  isBestSeller: z.boolean().optional(),
+  isSale: z.boolean().optional(),
 });
 
 export const updateStockBodySchema = z.object({
