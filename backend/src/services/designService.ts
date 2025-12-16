@@ -1,3 +1,4 @@
+import path from 'path';
 import Design from '../models/Design';
 import { IUser, UserRole } from '../models/User';
 import { ApiError } from '../utils/ApiError';
@@ -46,7 +47,8 @@ export async function createDesign(input: {
 
   let imagePath = 'placeholder.jpg';
   if (input.file) {
-    imagePath = `/${input.file.path.replace(/\\/g, '/')}`;
+    const filename = input.file.filename || path.basename(input.file.path);
+    imagePath = `/uploads/${filename}`;
   }
 
   const design = new Design({

@@ -47,7 +47,8 @@ async function looksLikeAllowedImageByMagicBytes(filePath: string) {
   }
 }
 
-const uploadDir = path.join(__dirname, '..', '..', 'uploads');
+// Use process.cwd() so dist/src paths don't diverge; Render allows writing to project root at runtime.
+const uploadDir = path.join(process.cwd(), 'uploads');
 
 const storage = multer.diskStorage({
   async destination(_req, _file, cb) {
