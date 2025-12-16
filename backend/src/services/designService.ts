@@ -42,13 +42,18 @@ export async function createDesign(input: {
   user: IUser;
   body: any;
   file?: Express.Multer.File;
+  baseUrl?: string;
 }) {
   const { title, description, price, category, tags, stock, isNewSeason, isBestSeller, isSale } = input.body;
 
   let imagePath = 'placeholder.jpg';
   if (input.file) {
     const filename = input.file.filename || path.basename(input.file.path);
-    imagePath = `/uploads/${filename}`;
+    const prefix =
+      input.baseUrl?.replace(/\/+$/, '') ||
+      process.env.BACKEND_URL?.replace(/\/+$/, '') ||
+      '';
+    imagePath = prefix ? `${prefix}/uploads/${filename}` : `/uploads/${filename}`;
   }
 
   const design = new Design({

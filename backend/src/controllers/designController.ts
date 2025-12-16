@@ -41,10 +41,12 @@ const getDesignById = asyncHandler(async (req: Request, res: Response) => {
 // @route   POST /api/designs
 // @access  Private (Influencer/Designer)
 const createDesign = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
   const createdDesign = await createDesignService({
     user: req.user as any,
     body: req.body,
     file: (req as any).file,
+    baseUrl,
   });
   sendSuccess(res, { statusCode: 201, data: createdDesign });
 });
