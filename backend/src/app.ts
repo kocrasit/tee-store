@@ -47,7 +47,12 @@ app.use(cors({
   origin(origin, callback) {
     // allow server-to-server / curl (no Origin header)
     if (!origin) return callback(null, true);
+    // allow explicit list
     if (allowedOrigins.includes(origin)) return callback(null, true);
+    // allow any Vercel preview/prod domain
+    if (origin.endsWith('.vercel.app')) return callback(null, true);
+    // allow Render domain itself (health checks)
+    if (origin.endsWith('.onrender.com')) return callback(null, true);
     return callback(new Error(`CORS blocked: ${origin}`));
   },
   credentials: true
