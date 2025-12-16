@@ -47,9 +47,16 @@ async function looksLikeAllowedImageByMagicBytes(filePath: string) {
   }
 }
 
+const uploadDir = path.join(__dirname, '..', '..', 'uploads');
+
 const storage = multer.diskStorage({
-  destination(_req, _file, cb) {
-    cb(null, 'uploads/');
+  async destination(_req, _file, cb) {
+    try {
+      await fs.mkdir(uploadDir, { recursive: true });
+      cb(null, uploadDir);
+    } catch (err) {
+      cb(err as any, uploadDir);
+    }
   },
   filename(_req, file, cb) {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
