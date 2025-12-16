@@ -31,3 +31,4 @@ console.log('[init-env] Şimdi .env içindeki MONGO_URI kullanıcı/şifre kısm
 
 
 
+
