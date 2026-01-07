@@ -1,0 +1,17 @@
+# robots.txt for E-Ticaret Platform
+
+User-agent: *
+Allow: /
+
+# Sitemap - Deploy sonrası gerçek domain ile güncellenecek
+Sitemap: https://your-vercel-domain.vercel.app/sitemap.xml
+
+# Admin ve özel sayfaları engelle
+Disallow: /admin/
+Disallow: /api/
+Disallow: /profile/
+Disallow: /checkout/
+Disallow: /cart/
+
+# Arama motorları için önbellek süresi
+Crawl-delay: 1

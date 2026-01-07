@@ -1,9 +1,11 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+// PRODUCTION FIX: Build-time error prevention
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
-if (!API_BASE_URL) {
-  throw new Error('NEXT_PUBLIC_API_URL environment variable is required');
+if (!API_BASE_URL && typeof window !== 'undefined') {
+  // Sadece browser'da uyarı ver, build time'da değil
+  console.error('⚠️ NEXT_PUBLIC_API_URL environment variable is not set!');
 }
 
 // Axios instance
@@ -89,13 +91,17 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // Refresh token'ı cookie'den veya localStorage'dan al
+        // Refresh token'ı auth-storage'dan al
         let refreshToken: string | undefined;
         if (typeof window !== 'undefined') {
           const storage = localStorage.getItem('auth-storage');
           if (storage) {
-            const { state } = JSON.parse(storage);
-            refreshToken = state?.user?.refreshToken;
+            try {
+              const { state } = JSON.parse(storage);
+              refreshToken = state?.user?.refreshToken;
+            } catch {
+              // ignore
+            }
           }
         }
 

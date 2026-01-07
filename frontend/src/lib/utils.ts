@@ -10,14 +10,24 @@ export function cn(...inputs: ClassValue[]) {
 
 /**
  * Backend image URL'ini düzenleme
+ * PRODUCTION FIX: Localhost fallback kaldırıldı
  */
 export function getImageUrl(path?: string | null): string {
   if (!path) {
     return 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
   }
   if (path.startsWith('http')) return path;
+
   const cleanPath = path.replace(/\\/g, '/');
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://127.0.0.1:5000';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  // PRODUCTION: API URL mutlaka tanımlı olmalı, yoksa hata yerine boş dön
+  if (!apiUrl) {
+    console.error('NEXT_PUBLIC_API_URL is not defined');
+    return path; // Fallback: orijinal path'i dön
+  }
+
+  const baseUrl = apiUrl.replace('/api', '');
   return `${baseUrl}${cleanPath.startsWith('/') ? '' : '/'}${cleanPath}`;
 }
 
