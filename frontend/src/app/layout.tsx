@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -135,6 +136,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
+          <SpeedInsights />
         </Providers>
       </body>
     </html>
