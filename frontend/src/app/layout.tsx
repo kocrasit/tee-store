@@ -9,7 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tee-store.vercel.app';
 
 export const metadata: Metadata = {
   title: {
