@@ -84,7 +84,7 @@ export default function InfluencerLayout({ children }: { children: React.ReactNo
                                     {user.firstName} {user.lastName}
                                 </p>
                                 <p className="text-xs text-slate-500 truncate mt-0.5">
-                                    @{user.influencerProfile?.instagramUsername || 'influencer'}
+                                    @{(user.influencerProfile as any)?.instagramUsername || user.influencerProfile?.socialLinks?.instagram || 'influencer'}
                                 </p>
                                 <div className="mt-1.5 inline-flex items-center gap-1">
                                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)] animate-pulse" />
