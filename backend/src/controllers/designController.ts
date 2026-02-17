@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import { IUser } from '../models/User';
-import { sendSuccess } from '../utils/apiResponse';
+import { sendSuccess, sendError } from '../utils/apiResponse';
 import {
   createDesign as createDesignService,
   deleteDesign as deleteDesignService,
@@ -24,7 +24,6 @@ const getDesigns = asyncHandler(async (req: Request, res: Response) => {
   const result = await listDesigns({
     pageNumber: (req.query as any).pageNumber,
     keyword: (req.query as any).keyword,
-    filter: (req.query as any).filter,
   });
   sendSuccess(res, { data: result });
 });
@@ -41,12 +40,12 @@ const getDesignById = asyncHandler(async (req: Request, res: Response) => {
 // @route   POST /api/designs
 // @access  Private (Influencer/Designer)
 const createDesign = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const baseUrl = `${req.protocol}://${req.get('host')}`;
+  const user = req.user as IUser;
+
   const createdDesign = await createDesignService({
-    user: req.user as any,
+    user: user as any,
     body: req.body,
     file: (req as any).file,
-    baseUrl,
   });
   sendSuccess(res, { statusCode: 201, data: createdDesign });
 });
@@ -61,9 +60,9 @@ const getAllDesignsAdmin = asyncHandler(async (req: AuthRequest, res: Response) 
 
 // @desc    Delete a design
 // @route   DELETE /api/designs/:id
-// @access  Private/Admin
+// @access  Private (Admin or Owner)
 const deleteDesign = asyncHandler(async (req: AuthRequest, res: Response) => {
-  await deleteDesignService(req.params.id);
+  await deleteDesignService(req.params.id, req.user as any);
   sendSuccess(res, { message: 'Design removed' });
 });
 
